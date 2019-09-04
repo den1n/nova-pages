@@ -1,9 +1,9 @@
 {
-    "name": "den1n/nova-permissions",
-    "description": "Laravel Nova resources for management of user roles and permissions.",
-    "homepage": "https://github.com/den1n/nova-permissions",
+    "name": "den1n/nova-pages",
+    "description": "Laravel Nova static pages resource.",
+    "homepage": "https://github.com/den1n/nova-pages",
     "license": "MIT",
-    "keywords": ["den1n", "laravel", "nova", "roles", "permissions"],
+    "keywords": ["den1n", "laravel", "nova", "pages"],
     "authors": [{
         "name": "Dmitry Kadochnikov",
         "email": "iqmass@gmail.com"
