@@ -1,26 +1,35 @@
 <?php
 
-namespace Den1n\NovaPage;
+namespace Den1n\NovaPages;
 
-use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Str;
 
 class Page extends \Illuminate\Database\Eloquent\Model
 {
-    use Sluggable;
-
     protected $guarded = [
         'id',
     ];
 
+    protected $attributes = [
+        'template' => 'default',
+        'published' => true,
+    ];
+
     /**
-     * Return the sluggable configuration array for this model.
+     * Set value for title attribute.
      */
-    public function sluggable(): array
+
+    public function setTitleAttribute(string $value): void
     {
-        return [
-            'slug' => [
-                'source' => 'title',
-            ],
-        ];
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = $this->attributes['slug'] ?? Str::slug($value);
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

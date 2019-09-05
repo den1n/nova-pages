@@ -2,16 +2,15 @@
 
 namespace Den1n\NovaPages;
 
-use Illuminate\Support\Collection;
-use Illuminate\Filesystem\Filesystem;
 use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Bootstrap any application services.
      */
-    public function boot(Filesystem $fs): void
+    public function boot(): void
     {
         PageResource::$model = config('pages.model');
 
@@ -27,15 +26,35 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/den1n/nova-pages'),
         ], 'lang');
 
-        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang', 'nova-pages');
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/nova-pages'),
+        ], 'views');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');
+        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang');
 
         Nova::translations(
             resource_path('lang/vendor/den1n/nova-pages/' . app()->getLocale() . '.json'),
         );
 
-        Nova::resources([
-            config('pages.resource'),
-        ]);
+        $resource = config('pages.resource');
+        if ($resource == PageResource::class) {
+            Nova::resources([
+                $resource,
+            ]);
+        }
+
+        Route::macro('novaPagesRoutes', function () {
+            Route::model('page', config('pages.model'));
+            Route::group([
+                'middleware' => ['web'],
+                'namespace' => '\\' . __NAMESPACE__,
+            ], function () {
+                Route::get('/{page}', 'PageController@index');
+            });
+        });
+
+        Page::observe(PageObserver::class);
     }
 
     /**

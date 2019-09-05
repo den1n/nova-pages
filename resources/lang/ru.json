@@ -1,11 +1,16 @@
 {
+    "Template": "Шаблон",
+    "Slug": "Слаг",
     "Title": "Заголовок",
     "Keywords": "Ключевые слова",
     "Description": "Описание",
-    "Published": "Опубликовано",
+    "Published": "Опубликована",
     "Content": "Содержимое",
     "Page": "Страница",
     "Pages": "Страницы",
+    "List of keywords separated by commas": "Список ключевых слов, разделенных запятыми",
+    "Page with slug ':slug' already exists": "Страница со слагом ':slug' уже сущестует",
+    "Default": "По умолчанию",
 
     "managePages": "Управление страницами",
     "viewPages": "Просмотр страниц"

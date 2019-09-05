@@ -4,9 +4,9 @@ namespace Den1n\NovaPages;
 
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class PageResource extends Resource
@@ -19,21 +19,16 @@ class PageResource extends Resource
     /**
      * The single value that should be used to represent the resource when being displayed.
      */
-    public static $title = 'name';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
      */
     public static $search = [
-        'name',
+        'slug',
+        'title',
         'description',
-    ];
-
-    /**
-     * The relationships that should be eager loaded on index queries.
-     */
-    public static $with = [
-        'users',
+        'content',
     ];
 
     /**
@@ -44,10 +39,13 @@ class PageResource extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make(__('Slug'), 'slug')
+            $this->makeTemplatesField()
                 ->rules('required', 'string')
-                ->showOnDetail()
-                ->showOnIndex()
+                ->displayUsingLabels()
+                ->sortable(),
+
+            Text::make(__('Slug'), 'slug')
+                ->rules('nullable', 'string')
                 ->sortable(),
 
             Text::make(__('Title'), 'title')
@@ -55,21 +53,57 @@ class PageResource extends Resource
                 ->sortable(),
 
             Text::make(__('Keywords'), 'keywords')
+                ->help(__('List of keywords separated by commas'))
                 ->rules('nullable', 'string')
-                ->sortable(),
+                ->hideFromIndex(),
 
             Text::make(__('Description'), 'description')
-                ->rules('nullable', 'string')
-                ->sortable(),
-
-            Text::make(__('Content'), 'content')
-                ->rules('nullable', 'string')
-                ->sortable(),
+                ->rules('nullable', 'string'),
 
             Boolean::make(__('Published'), 'published')
                 ->rules('required')
                 ->sortable(),
+
+            $this->makeEditorField()
+                ->rules('nullable', 'string')
+                ->hideFromIndex()
+                ->sortable(),
         ];
+    }
+
+    /**
+     * Creates template selection field based on application configuration.
+     */
+    protected function makeTemplatesField(): Select
+    {
+        return Select::make(__('Template'), 'template')->options(function() {
+            $templates = [];
+            foreach (config('pages.controller.templates') as $template)
+                $templates[$template['name']] = __($template['description']);
+            return $templates;
+        });
+    }
+
+    /**
+     * Creates field for edit content of resource based on application configuration.
+     */
+    protected function makeEditorField(): \Laravel\Nova\Fields\Field
+    {
+        $class = config('pages.editor.class');
+        $field = $class::make(__('Content'), 'content');
+        foreach (config('pages.editor.options') as $method => $arguments) {
+            if (method_exists($field, $method))
+                $field->{$method}(...$arguments);
+        }
+        return $field;
+    }
+
+    /**
+     * Get the URI key for the resource.
+     */
+    public static function uriKey(): string
+    {
+        return 'pages';
     }
 
     /**

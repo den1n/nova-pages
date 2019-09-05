@@ -1,4 +1,6 @@
 {
+    "Template": "Template",
+    "Slug": "Slug",
     "Title": "Title",
     "Keywords": "Keywords",
     "Description": "Description",
@@ -6,6 +8,9 @@
     "Content": "Content",
     "Page": "Page",
     "Pages": "Pages",
+    "List of keywords separated by commas": "List of keywords separated by commas",
+    "Page with slug ':slug' already exists": "Page with slug ':slug' already exists",
+    "Default": "Default",
 
     "managePages": "Manage Pages",
     "viewPages": "View Pages"
