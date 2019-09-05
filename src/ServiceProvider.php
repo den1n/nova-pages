@@ -12,10 +12,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot(): void
     {
-        PageResource::$model = config('pages.model');
+        PageResource::$model = config('nova-pages.model');
 
         $this->publishes([
-            __DIR__ . '/../config/pages.php' => config_path('pages.php'),
+            __DIR__ . '/../config/pages.php' => config_path('nova-pages.php'),
         ], 'config');
 
         $this->publishes([
@@ -35,20 +35,21 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
         $this->loadJsonTranslationsFrom(resource_path('lang/vendor/nova-pages'));
 
-        $resource = config('pages.resource');
+        $resource = config('nova-pages.resource');
         if ($resource == PageResource::class) {
             Nova::resources([
                 $resource,
             ]);
         }
 
-        Route::macro('novaPagesRoutes', function () {
-            Route::model('page', config('pages.model'));
+        Route::macro('novaPagesRoutes', function (string $prefix = '') {
+            Route::model('page', config('nova-pages.model'));
             Route::group([
+                'prefix' => $prefix,
                 'middleware' => ['web'],
                 'namespace' => '\\' . __NAMESPACE__,
             ], function () {
-                Route::get('/{page}', 'PageController@index');
+                Route::get('/{page}', 'PageController@show')->name('nova-pages.show');
             });
         });
 
@@ -60,6 +61,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/pages.php', 'pages');
+        $this->mergeConfigFrom(__DIR__ . '/../config/pages.php', 'nova-pages');
     }
 }

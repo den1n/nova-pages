@@ -40,13 +40,29 @@ public function tools()
 
 ## Serving Pages
 
-Add routes to your `routes/web.php` file.
+If you want to serve pages from root of the site add this route to the end of `routes/web.php` file.
 
 ```php
 Route::novaPagesRoutes();
 ```
 
-This route will serve all incoming /{page} requests. Because of that you must put this route to the end of file.
+This route will serve all incoming /{page} requests.
+
+Or you can define route with prefix to stop serving from root of the sites.
+
+```php
+Route::novaPagesRoutes('/pages');
+```
+
+## Router
+
+You can get url to existing page by using Laravel `route` helper.
+
+```php
+$url = route('nova-pages.show', [
+    'page' => 'page-model-or-slug',
+]);
+```
 
 ## Screenshots
 

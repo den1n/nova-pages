@@ -15,6 +15,17 @@ class Page extends \Illuminate\Database\Eloquent\Model
         'published' => true,
     ];
 
+    protected $appends = [
+        'url',
+    ];
+
+    public function getUrlAttribute (): string
+    {
+        return route('nova-pages.show', [
+            'page' => $this,
+        ]);
+    }
+
     /**
      * Set value for title attribute.
      */
@@ -31,5 +42,13 @@ class Page extends \Illuminate\Database\Eloquent\Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get the table associated with the model.
+     */
+    public function getTable()
+    {
+        return config('nova-pages.table', parent::getTable());
     }
 }

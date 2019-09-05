@@ -9,7 +9,7 @@ class PageController extends \App\Http\Controllers\Controller
     /**
      * Shows a page content.
      */
-    public function index(Page $page): Renderable
+    public function show(Page $page): Renderable
     {
         if ($page->published) {
             return view('nova-pages::' . $page->template, [

@@ -11,7 +11,7 @@ class CreatePagesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('pages.table'), function (Blueprint $table) {
+        Schema::create(config('nova-pages.table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('title');
@@ -29,6 +29,6 @@ class CreatePagesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('pages.table'));
+        Schema::dropIfExists(config('nova-pages.table'));
     }
 }

@@ -49,6 +49,9 @@ class PageResource extends Resource
                 ->rules('nullable', 'string')
                 ->sortable(),
 
+            Text::make(__('Url'), 'url')
+                ->onlyOnDetail(),
+
             Text::make(__('Title'), 'title')
                 ->rules('required', 'string')
                 ->sortable(),
@@ -79,7 +82,7 @@ class PageResource extends Resource
     {
         return Select::make(__('Template'), 'template')->options(function() {
             $templates = [];
-            foreach (config('pages.controller.templates') as $template)
+            foreach (config('nova-pages.controller.templates') as $template)
                 $templates[$template['name']] = __($template['description']);
             return $templates;
         });
@@ -90,9 +93,9 @@ class PageResource extends Resource
      */
     protected function makeEditorField(): \Laravel\Nova\Fields\Field
     {
-        $class = config('pages.editor.class');
+        $class = config('nova-pages.editor.class');
         $field = $class::make(__('Content'), 'content');
-        foreach (config('pages.editor.options') as $method => $arguments) {
+        foreach (config('nova-pages.editor.options') as $method => $arguments) {
             if (method_exists($field, $method))
                 $field->{$method}(...$arguments);
         }
