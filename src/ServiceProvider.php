@@ -32,11 +32,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'nova-pages');
+        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
         $this->loadJsonTranslationsFrom(resource_path('lang/vendor/nova-pages'));
-
-        Nova::translations(
-            resource_path('lang/vendor/nova-pages/' . app()->getLocale() . '.json'),
-        );
 
         $resource = config('pages.resource');
         if ($resource == PageResource::class) {
