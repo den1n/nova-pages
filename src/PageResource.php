@@ -45,6 +45,7 @@ class PageResource extends Resource
                 ->sortable(),
 
             Text::make(__('Slug'), 'slug')
+                ->help(__('Will be generated automatically if leave empty'))
                 ->rules('nullable', 'string')
                 ->sortable(),
 

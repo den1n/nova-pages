@@ -23,7 +23,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'migrations');
 
         $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/den1n/nova-pages'),
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-pages'),
         ], 'lang');
 
         $this->publishes([
@@ -31,10 +31,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'views');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');
-        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'nova-pages');
+        $this->loadJsonTranslationsFrom(resource_path('lang/vendor/nova-pages'));
 
         Nova::translations(
-            resource_path('lang/vendor/den1n/nova-pages/' . app()->getLocale() . '.json'),
+            resource_path('lang/vendor/nova-pages/' . app()->getLocale() . '.json'),
         );
 
         $resource = config('pages.resource');

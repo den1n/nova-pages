@@ -10,7 +10,7 @@ Require package with Composer.
 composer require den1n/nova-pages
 ```
 
-Publish configuration file `config/page.pgp` and resources `lang/vendor/den1n/nova-pages`.
+Publish configuration file `config/pages.php`, migration file `*_create_pages_table.php`, views `views/vendor/nova-pages` and translations `lang/vendor/nova-pages`.
 
 ```sh
 php artisan vendor:publish --provider=Den1n\NovaPages\ServiceProvider
@@ -38,7 +38,25 @@ public function tools()
 }
 ```
 
+## Serving Pages
+
+Add routes to your `routes/web.php` file.
+
+```php
+Route::novaPagesRoutes();
+```
+
+This route will serve all incoming /{page} requests. Because of that you must putt this route to end of file.
+
 ## Screenshots
+
+### Pages
+
+![Pages](https://raw.githubusercontent.com/den1n/nova-permissions/master/screens/pages.png)
+
+### Page Details
+
+![Page Details](https://raw.githubusercontent.com/den1n/nova-permissions/master/screens/page-form.png)
 
 ## Contributing
 

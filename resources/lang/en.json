@@ -8,6 +8,7 @@
     "Content": "Content",
     "Page": "Page",
     "Pages": "Pages",
+    "Will be generated automatically if leave empty": "Will be generated automatically if leave empty",
     "List of keywords separated by commas": "List of keywords separated by commas",
     "Page with slug ':slug' already exists": "Page with slug ':slug' already exists",
     "Default": "Default",
