@@ -46,17 +46,17 @@ Add routes to your `routes/web.php` file.
 Route::novaPagesRoutes();
 ```
 
-This route will serve all incoming /{page} requests. Because of that you must putt this route to end of file.
+This route will serve all incoming /{page} requests. Because of that you must put this route to the end of file.
 
 ## Screenshots
 
 ### Pages
 
-![Pages](https://raw.githubusercontent.com/den1n/nova-permissions/master/screens/pages.png)
+![Pages](https://raw.githubusercontent.com/den1n/nova-pages/master/screens/pages.png)
 
 ### Page Details
 
-![Page Details](https://raw.githubusercontent.com/den1n/nova-permissions/master/screens/page-form.png)
+![Page Details](https://raw.githubusercontent.com/den1n/nova-pages/master/screens/page-form.png)
 
 ## Contributing
 
