@@ -52,7 +52,8 @@ class PageResource extends Resource
                 ->sortable(),
 
             Url::make(__('Title'), 'url')
-                ->title(__('Open page in new window'))
+                // TODO: Uncomment when PR to inspheric/nova-field-url will be merged.
+                // ->title(__('Open page in new window'))
                 ->labelUsing(function() { return $this->title; })
                 ->clickable()
                 ->clickableOnIndex()
