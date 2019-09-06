@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
+use Inspheric\Fields\Url;
 use Illuminate\Http\Request;
 
 class PageResource extends Resource
@@ -47,13 +48,21 @@ class PageResource extends Resource
             Text::make(__('Slug'), 'slug')
                 ->help(__('Will be generated automatically if leave empty'))
                 ->rules('nullable', 'string')
+                ->hideFromIndex()
                 ->sortable(),
 
-            Text::make(__('Url'), 'url')
-                ->onlyOnDetail(),
+            Url::make(__('Title'), 'url')
+                ->title(__('Open page in new window'))
+                ->labelUsing(function() { return $this->title; })
+                ->clickable()
+                ->clickableOnIndex()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
 
             Text::make(__('Title'), 'title')
                 ->rules('required', 'string')
+                ->hideFromIndex()
+                ->hideFromDetail()
                 ->sortable(),
 
             Text::make(__('Keywords'), 'keywords')

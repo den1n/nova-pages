@@ -12,6 +12,7 @@
     "Will be generated automatically if leave empty": "Будет сгенерировано автоматически, если оставить пустым",
     "List of keywords separated by commas": "Список ключевых слов, разделенных запятыми",
     "Page with slug ':slug' already exists": "Страница со слагом ':slug' уже существует",
+    "Open page in new window": "Открыть страницу в новом окне",
     "Default": "По умолчанию",
 
     "managePages": "Управление страницами",
