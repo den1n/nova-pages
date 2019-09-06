@@ -11,6 +11,8 @@ class Tool extends \Laravel\Nova\Tool
      */
     public function boot(): void
     {
+        PageResource::$model = config('nova-pages.model');
+
         $resource = config('nova-pages.resource');
         if ($resource == PageResource::class) {
             Nova::resources([
@@ -19,4 +21,14 @@ class Tool extends \Laravel\Nova\Tool
         }
 
     }
+
+	/**
+	 * Build the view that renders the navigation links for the tool.
+	 */
+	public function renderNavigation()
+	{
+		return view('nova-pages::navigation', [
+            'uriKey' => config('nova-pages.resource')::uriKey(),
+        ]);
+	}
 }

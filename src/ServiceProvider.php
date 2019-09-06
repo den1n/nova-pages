@@ -11,8 +11,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot(): void
     {
-        PageResource::$model = config('nova-pages.model');
-
         $this->publishes([
             __DIR__ . '/../config/nova-pages.php' => config_path('nova-pages.php'),
         ], 'config');

@@ -33,6 +33,11 @@ class PageResource extends Resource
     ];
 
     /**
+     * Indicates if the resource should be displayed in the sidebar.
+     */
+    public static $displayInNavigation = false;
+
+    /**
      * Get the fields displayed by the resource.
      */
     public function fields(Request $request): array
