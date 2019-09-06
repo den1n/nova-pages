@@ -2,6 +2,8 @@
 
 namespace Den1n\NovaPages;
 
+use Laravel\Nova\Nova;
+
 class Tool extends \Laravel\Nova\Tool
 {
     /**
@@ -9,5 +11,12 @@ class Tool extends \Laravel\Nova\Tool
      */
     public function boot(): void
     {
+        $resource = config('nova-pages.resource');
+        if ($resource == PageResource::class) {
+            Nova::resources([
+                $resource,
+            ]);
+        }
+
     }
 }

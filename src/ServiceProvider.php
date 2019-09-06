@@ -2,7 +2,6 @@
 
 namespace Den1n\NovaPages;
 
-use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -34,13 +33,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'nova-pages');
         $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
         $this->loadJsonTranslationsFrom(resource_path('lang/vendor/nova-pages'));
-
-        $resource = config('nova-pages.resource');
-        if ($resource == PageResource::class) {
-            Nova::resources([
-                $resource,
-            ]);
-        }
 
         Route::macro('novaPagesRoutes', function (string $prefix = '') {
             Route::model('page', config('nova-pages.model'));
