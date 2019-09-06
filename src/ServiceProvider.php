@@ -15,7 +15,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         PageResource::$model = config('nova-pages.model');
 
         $this->publishes([
-            __DIR__ . '/../config/pages.php' => config_path('nova-pages.php'),
+            __DIR__ . '/../config/nova-pages.php' => config_path('nova-pages.php'),
         ], 'config');
 
         $this->publishes([
@@ -61,6 +61,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/pages.php', 'nova-pages');
+        $this->mergeConfigFrom(__DIR__ . '/../config/nova-pages.php', 'nova-pages');
     }
 }
