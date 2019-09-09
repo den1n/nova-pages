@@ -18,14 +18,15 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
 
         $this->registerPolicies();
 
-        if (class_exists('Den1n\\NovaPermissions\\ServiceProvider')) {
-            foreach (['managePages', 'viewPages'] as $permission) {
-                Gate::define($permission, function ($user) use ($permission) {
+        foreach (['managePages', 'viewPages'] as $permission) {
+            Gate::define($permission, function ($user) use ($permission) {
+                if (class_uses($user)['Den1n\\Permissions\\HasRoles'] ?? false) {
                     return $user->roles->contains(function ($role) use ($permission) {
                         return $role->super or in_array($permission, $role->permissions);
                     });
-                });
-            }
+                } else
+                    return true;
+            });
         }
     }
 }
