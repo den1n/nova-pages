@@ -11,7 +11,7 @@ class PageController extends \App\Http\Controllers\Controller
      */
     public function show(Page $page): Renderable
     {
-        if ($page->published) {
+        if (auth()->user()->can('managePages') || $page->published) {
             return view('nova-pages::' . $page->template, [
                 'page' => $page,
             ]);

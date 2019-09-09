@@ -181,6 +181,12 @@ class PageResource extends Resource
      */
     public function actions(Request $request): array
     {
-        return [];
+        $canManage = function ($request) {
+            return $request->user()->can('managePages');
+        };
+        return [
+            (new PublishAction)->canSee($canManage),
+            (new HideAction)->canSee($canManage),
+        ];
     }
 }

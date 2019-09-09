@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Builder;
 class TemplateFilter extends \Laravel\Nova\Filters\Filter
 {
     /**
+     * Get the displayable name of the filter.
+     */
+    public function name(): string
+    {
+        return __('Template');
+    }
+
+    /**
      * Apply the filter to the given query.
      */
     public function apply(Request $request, $query, $value): Builder
