@@ -19,21 +19,17 @@ class Page extends \Illuminate\Database\Eloquent\Model
         'url',
     ];
 
-    public function getUrlAttribute (): string
-    {
-        return route('nova-pages.show', [
-            'page' => $this,
-        ]);
-    }
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     /**
-     * Set value for title attribute.
+     * Get the table associated with the model.
      */
-
-    public function setTitleAttribute(string $value): void
+    public function getTable()
     {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug'] = $this->attributes['slug'] ?? Str::slug($value);
+        return config('nova-pages.table', parent::getTable());
     }
 
     /**
@@ -45,10 +41,21 @@ class Page extends \Illuminate\Database\Eloquent\Model
     }
 
     /**
-     * Get the table associated with the model.
+     * Get value of url attribute.
      */
-    public function getTable()
+    public function getUrlAttribute (): string
     {
-        return config('nova-pages.table', parent::getTable());
+        return route('nova-pages.show', [
+            'page' => $this,
+        ]);
+    }
+
+    /**
+     * Set value for title attribute.
+     */
+    public function setTitleAttribute(string $value): void
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = $this->attributes['slug'] ?? Str::slug($value);
     }
 }

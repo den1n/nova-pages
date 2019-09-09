@@ -7,10 +7,11 @@ class PageObserver
     /**
      * Checks uniqueness of page slug.
      */
-    protected function checkUniqueness (string $slug): void
+    protected function checkUniqueness (Page $page): void
     {
-        if (Page::where('slug', $slug)->exists())
-            throw new \Exception(__("Page with slug ':slug' already exists", ['slug' => $slug]));
+        $db = Page::where('slug', $page->slug)->first();
+        if ($db and $db->id !== $page->id)
+            throw new \Exception(__("Page with slug ':slug' already exists", ['slug' => $page->slug]));
     }
 
     /**
@@ -18,7 +19,7 @@ class PageObserver
      */
     public function creating(Page $page): void
     {
-        $this->checkUniqueness($page->slug);
+        $this->checkUniqueness($page);
     }
 
     /**
@@ -26,6 +27,6 @@ class PageObserver
      */
     public function updating(Page $page): void
     {
-        $this->checkUniqueness($page->slug);
+        $this->checkUniqueness($page);
     }
 }

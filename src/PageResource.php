@@ -5,6 +5,7 @@ namespace Den1n\NovaPages;
 use Laravel\Nova\Resource;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
 use Inspheric\Fields\Url;
@@ -59,25 +60,27 @@ class PageResource extends Resource
             Url::make(__('Title'), 'url')
                 // TODO: Uncomment when PR to inspheric/nova-field-url will be merged.
                 // ->title(__('Open page in new window'))
-                ->labelUsing(function() { return $this->title; })
+                ->labelUsing(function () { return $this->title; })
                 ->clickable()
                 ->clickableOnIndex()
                 ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->hideWhenUpdating()
+                ->sortable(),
 
             Text::make(__('Title'), 'title')
-                ->rules('required', 'string')
+                ->rules('required', 'string', 'max:255')
                 ->hideFromIndex()
                 ->hideFromDetail()
                 ->sortable(),
 
             Text::make(__('Keywords'), 'keywords')
                 ->help(__('List of keywords separated by commas'))
-                ->rules('nullable', 'string')
+                ->rules('nullable', 'string', 'max:255')
                 ->hideFromIndex(),
 
             Text::make(__('Description'), 'description')
-                ->rules('nullable', 'string'),
+                ->rules('nullable', 'string', 'max:255')
+                ->hideFromIndex(),
 
             Boolean::make(__('Published'), 'published')
                 ->rules('required')
@@ -87,6 +90,11 @@ class PageResource extends Resource
                 ->rules('nullable', 'string')
                 ->hideFromIndex()
                 ->sortable(),
+
+            DateTime::make(__('Created At'), 'created_at')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
         ];
     }
 
@@ -95,7 +103,7 @@ class PageResource extends Resource
      */
     protected function makeTemplatesField(): Select
     {
-        return Select::make(__('Template'), 'template')->options(function() {
+        return Select::make(__('Template'), 'template')->options(function () {
             $templates = [];
             foreach (config('nova-pages.controller.templates') as $template)
                 $templates[$template['name']] = __($template['description']);
