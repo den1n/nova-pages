@@ -39,7 +39,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 'middleware' => ['web'],
                 'namespace' => '\\' . __NAMESPACE__,
             ], function () {
-                Route::get('/{page}', 'PageController@show')->name('nova-pages.show');
+                Route::get('/{page}', '\\' . ltrim(config('nova-pages.controller.class'), '\\') . '@show')
+                    ->name('nova-pages.show');
             });
         });
 

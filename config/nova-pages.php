@@ -26,7 +26,7 @@ return [
         'class' => \Laravel\Nova\Fields\Trix::class,
 
         /**
-         * Options witch will be applied to te field instance.
+         * Options which will be applied to te field instance.
          * Key: name of field method.
          * Value: list of method arguments.
          */
@@ -48,7 +48,7 @@ return [
 
     'controller' => [
         /**
-         * Controller class witch will be serving pages.
+         * Controller class which will be serving pages.
          */
 
         'class' => \Den1n\NovaPages\PageController::class,
