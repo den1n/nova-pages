@@ -162,7 +162,10 @@ class PageResource extends Resource
      */
     public function filters(Request $request): array
     {
-        return [];
+        return [
+            new TemplateFilter,
+            new StatusFilter,
+        ];
     }
 
     /**
