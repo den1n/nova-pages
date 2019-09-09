@@ -22,7 +22,7 @@ Migrate database to create table where all pages will be stored.
 php artisan migrate
 ```
 
-Add instance of class `Den1n\NovaPages\Tool` to your `App\Providers\NovaServiceProvider::toots()` method to display the Pages within your Nova resources.
+Add instance of class `Den1n\NovaPages\Tool` to your `App\Providers\NovaServiceProvider::tools()` method to display the pages within your Nova resources.
 
 ```php
 /**
