@@ -209,12 +209,12 @@ class PageResource extends Resource
      */
     public function actions(Request $request): array
     {
-        $canSee = function ($request) {
+        $canUpdate = function ($request) {
             return $request->user()->can('pagesUpdate');
         };
         return [
-            (new PublishAction)->canSee($canSee),
-            (new HideAction)->canSee($canSee),
+            (new PublishAction)->canSee($canUpdate),
+            (new HideAction)->canSee($canUpdate),
         ];
     }
 }

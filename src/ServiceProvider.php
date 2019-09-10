@@ -24,7 +24,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'lang');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/nova-pages'),
+            __DIR__ . '/../resources/views/templates' => resource_path('views/vendor/nova-pages/templates'),
         ], 'views');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');

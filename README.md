@@ -10,13 +10,13 @@ Require package with Composer.
 composer require den1n/nova-pages
 ```
 
-Publish configuration file `config/nova-pages.php`, migration file `*_create_pages_table.php`, views `views/vendor/nova-pages` and translations `lang/vendor/nova-pages`.
+Publish configuration file `config/nova-pages.php`, migration file `database/migrations*_create_pages_table.php`, views `resources/views/vendor/nova-pages` and translations `resources/lang/vendor/nova-pages`.
 
 ```sh
 php artisan vendor:publish --provider=Den1n\NovaPages\ServiceProvider
 ```
 
-Migrate database to create table where all pages will be stored.
+Migrate database.
 
 ```sh
 php artisan migrate
@@ -73,15 +73,15 @@ $url = route('nova-pages.show', [
 
 Page controller will serve pages with `default` template.
 
-Template is published to views directory `resources\views\vendor\nova-pages\default.blade.php`.
+Template is published to views directory `resources/views/vendor/nova-pages/templates/default.blade.php`.
 
-Instance of `Page` model passed to template in `$page` variable.
+Instance of `Page` model passed to template as `$page` variable.
 
 You can freely modify `default` template.
 
 ## Creating a custom template
 
-First create a custom blade template in `resources\views\vendor\nova-pages` directory.
+First create a custom blade template in `resources/views/vendor/nova-pages/templates` directory.
 
 For example, `rich.blade.php`.
 
@@ -101,7 +101,7 @@ Then register it in configuration file `config/nova-pages.php`.
 ],
 ```
 
-After that your custom template will be available to select in Nova Pages tool.
+After that your custom template will be available to select when creating page or updating existing one.
 
 ## Screenshots
 
@@ -109,9 +109,13 @@ After that your custom template will be available to select in Nova Pages tool.
 
 ![Pages](https://raw.githubusercontent.com/den1n/nova-pages/master/screens/pages.png)
 
+### Page Form
+
+![Page Form](https://raw.githubusercontent.com/den1n/nova-pages/master/screens/page-form.png)
+
 ### Page Details
 
-![Page Details](https://raw.githubusercontent.com/den1n/nova-pages/master/screens/page-form.png)
+![Page Details](https://raw.githubusercontent.com/den1n/nova-pages/master/screens/page-details.png)
 
 ## Contributing
 
