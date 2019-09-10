@@ -11,15 +11,13 @@ class Tool extends \Laravel\Nova\Tool
      */
     public function boot(): void
     {
-        PageResource::$model = config('nova-pages.model');
-
-        $resource = config('nova-pages.resource');
+        $resource = config('nova-pages.resources.page');
+        $resource::$model = config('nova-pages.models.page');
         if ($resource == PageResource::class) {
             Nova::resources([
                 $resource,
             ]);
         }
-
     }
 
 	/**
@@ -28,7 +26,7 @@ class Tool extends \Laravel\Nova\Tool
 	public function renderNavigation()
 	{
 		return view('nova-pages::navigation', [
-            'uriKey' => config('nova-pages.resource')::uriKey(),
+            'uriKey' => config('nova-pages.resources.page')::uriKey(),
         ]);
 	}
 }

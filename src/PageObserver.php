@@ -9,8 +9,8 @@ class PageObserver
      */
     protected function checkUniqueness (Page $page): void
     {
-        $db = Page::where('slug', $page->slug)->first();
-        if ($db and $db->id !== $page->id)
+        $first = config('nova-pages.models.page')::where('slug', $page->slug)->first();
+        if ($first and $first->id !== $page->id)
             throw new \Exception(__("Page with slug ':slug' already exists", ['slug' => $page->slug]));
     }
 

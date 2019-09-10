@@ -2,14 +2,15 @@
 
 namespace Den1n\NovaPages;
 
-use Laravel\Nova\Resource;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Boolean;
-use Inspheric\Fields\Url;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Resource;
 
 class PageResource extends Resource
 {
@@ -34,9 +35,28 @@ class PageResource extends Resource
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     */
+    public static $with = [
+        'author',
+    ];
+
+    /**
      * Indicates if the resource should be displayed in the sidebar.
      */
     public static $displayInNavigation = false;
+
+    /**
+     * Build an "index" query for the given resource.
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (empty($request->get('orderBy'))) {
+            $query->getQuery()->orders = [];
+            return $query->orderBy('title');
+        }
+        return $query;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -52,17 +72,16 @@ class PageResource extends Resource
                 ->sortable(),
 
             Text::make(__('Slug'), 'slug')
-                ->help(__('Will be generated automatically if leave empty'))
+                ->help(__('Will be filled automatically if leave empty'))
                 ->rules('nullable', 'string')
-                ->hideFromIndex()
-                ->sortable(),
+                ->hideFromIndex(),
 
-            Url::make(__('Title'), 'url')
-                // TODO: Uncomment when PR to inspheric/nova-field-url will be merged.
-                // ->title(__('Open page in new window'))
-                ->labelUsing(function () { return $this->title; })
-                ->clickable()
-                ->clickableOnIndex()
+            Text::make(__('Title'), 'title', function () {
+                return sprintf('<a href="%s" title="%s" target="_blank">%s</a>',
+                    $this->url, __('Open page in new window'), $this->title
+                );
+            })
+                ->asHtml()
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
@@ -70,8 +89,7 @@ class PageResource extends Resource
             Text::make(__('Title'), 'title')
                 ->rules('required', 'string', 'max:255')
                 ->hideFromIndex()
-                ->hideFromDetail()
-                ->sortable(),
+                ->hideFromDetail(),
 
             Text::make(__('Keywords'), 'keywords')
                 ->help(__('List of keywords separated by commas'))
@@ -88,10 +106,19 @@ class PageResource extends Resource
 
             $this->makeEditorField()
                 ->rules('nullable', 'string')
-                ->hideFromIndex()
-                ->sortable(),
+                ->hideFromIndex(),
 
             DateTime::make(__('Created At'), 'created_at')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
+
+            DateTime::make(__('Updated At'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+
+            BelongsTo::make(__('Author'), 'author', config('nova-blog.resources.user'))
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
@@ -163,6 +190,7 @@ class PageResource extends Resource
     public function filters(Request $request): array
     {
         return [
+            new AuthorFilter,
             new TemplateFilter,
             new StatusFilter,
         ];
@@ -181,12 +209,12 @@ class PageResource extends Resource
      */
     public function actions(Request $request): array
     {
-        $canManage = function ($request) {
-            return $request->user()->can('managePages');
+        $canSee = function ($request) {
+            return $request->user()->can('pagesUpdate');
         };
         return [
-            (new PublishAction)->canSee($canManage),
-            (new HideAction)->canSee($canManage),
+            (new PublishAction)->canSee($canSee),
+            (new HideAction)->canSee($canSee),
         ];
     }
 }

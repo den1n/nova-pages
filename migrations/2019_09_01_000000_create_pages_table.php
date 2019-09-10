@@ -11,7 +11,9 @@ class CreatePagesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('nova-pages.table'), function (Blueprint $table) {
+        $tables = config('nova-pages.tables');
+
+        Schema::create($tables['pages'], function (Blueprint $table) use ($tables) {
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('title');
@@ -20,6 +22,8 @@ class CreatePagesTable extends Migration
             $table->string('template');
             $table->boolean('published')->default(true);
             $table->text('content')->nullable();
+            $table->unsignedBigInteger('author_id');
+            $table->foreign('author_id')->references('id')->on($tables['users'])->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ class CreatePagesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('nova-pages.table'));
+        Schema::dropIfExists(config('nova-pages.tables.pages'));
     }
 }

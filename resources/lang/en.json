@@ -1,4 +1,5 @@
 {
+    "Author": "Author",
     "Template": "Template",
     "Slug": "Slug",
     "Url": "Url",
@@ -9,12 +10,13 @@
     "Hidden": "Hidden",
     "Content": "Content",
     "Created At": "Created At",
+    "Updated At": "Updated At",
     "Status": "Status",
     "Page": "Page",
     "Pages": "Pages",
     "Publish pages": "Publish pages",
     "Hide pages": "Hide pages",
-    "Will be generated automatically if leave empty": "Will be generated automatically if leave empty",
+    "Will be filled automatically if leave empty": "Will be filled automatically if leave empty",
     "List of keywords separated by commas": "List of keywords separated by commas",
     "Page with slug ':slug' already exists": "Page with slug ':slug' already exists",
     "Open page in new window": "Open page in new window",
@@ -22,6 +24,9 @@
     "Pages are hidden!": "Pages are hidden!",
     "Default": "Default",
 
-    "managePages": "Manage Pages",
-    "viewPages": "View Pages"
+    "pagesManager": "Pages: Manager",
+    "pagesView": "Pages: View Pages",
+    "pagesCreate": "Pages: Create Pages",
+    "pagesUpdate": "Pages: Update Pages",
+    "pagesDelete": "Pages: Delete Pages"
 }

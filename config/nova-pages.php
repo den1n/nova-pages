@@ -3,16 +3,22 @@
 return [
 
     /**
-     * Name of page model used by application.
+     * Names of models used by application.
      */
 
-    'model' => \Den1n\NovaPages\Page::class,
+    'models' => [
+        'page' => \Den1n\NovaPages\Page::class,
+        'user' => config('auth.providers.users.model', \App\User::class),
+    ],
 
     /**
-     * Name of page resource used by Nova.
+     * Names of resources used by Nova.
      */
 
-    'resource' => \Den1n\NovaPages\PageResource::class,
+    'resources' => [
+        'page' => \Den1n\NovaPages\PageResource::class,
+        'user' => \App\Nova\User::class,
+    ],
 
     /**
      * Settings of Nova field user for editing page content.
@@ -37,10 +43,13 @@ return [
     ],
 
     /**
-     * Name of database table where all pages will be stored.
+     * Names of database tables used by models.
      */
 
-    'table' => 'pages',
+    'tables' => [
+        'pages' => 'pages',
+        'users' => 'users',
+    ],
 
     /**
      * Settings of pages controller

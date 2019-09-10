@@ -33,18 +33,18 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadJsonTranslationsFrom(resource_path('lang/vendor/nova-pages'));
 
         Route::macro('novaPagesRoutes', function (string $prefix = '') {
-            Route::model('page', config('nova-pages.model'));
+            Route::model('page', config('nova-pages.models.page'));
             Route::group([
                 'prefix' => $prefix,
                 'middleware' => ['web'],
                 'namespace' => '\\' . __NAMESPACE__,
             ], function () {
-                Route::get('/{page}', '\\' . ltrim(config('nova-pages.controller.class'), '\\') . '@show')
-                    ->name('nova-pages.show');
+                $controller = '\\' . ltrim(config('nova-pages.controller.class'), '\\');
+                Route::get('/{page}', $controller . '@show')->name('nova-pages.show');
             });
         });
 
-        Page::observe(PageObserver::class);
+        config('nova-pages.models.page')::observe(PageObserver::class);
     }
 
     /**

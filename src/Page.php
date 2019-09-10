@@ -25,11 +25,23 @@ class Page extends \Illuminate\Database\Eloquent\Model
     ];
 
     /**
+     * The "booting" method of the model.
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($page) {
+            $page->author_id = auth()->user()->id;
+        });
+    }
+
+    /**
      * Get the table associated with the model.
      */
     public function getTable()
     {
-        return config('nova-pages.table', parent::getTable());
+        return config('nova-pages.tables.page', parent::getTable());
     }
 
     /**
@@ -57,5 +69,13 @@ class Page extends \Illuminate\Database\Eloquent\Model
     {
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = $this->attributes['slug'] ?? Str::slug($value);
+    }
+
+    /**
+     * Get the author of the page.
+     */
+    public function author()
+    {
+        return $this->belongsTo(config('nova-pages.models.user'));
     }
 }
