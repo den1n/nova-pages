@@ -20,10 +20,10 @@ class CreatePagesTable extends Migration
             $table->string('keywords')->nullable();
             $table->string('description')->nullable();
             $table->string('template');
-            $table->boolean('published')->default(true);
             $table->text('content')->nullable();
-            $table->unsignedBigInteger('author_id');
+            $table->bigInteger('author_id')->unsigned();
             $table->foreign('author_id')->references('id')->on($tables['users'])->onDelete('cascade');
+            $table->timestamp('published_at')->useCurrent();
             $table->timestamps();
         });
     }

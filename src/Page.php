@@ -2,8 +2,6 @@
 
 namespace Den1n\NovaPages;
 
-use Illuminate\Support\Str;
-
 class Page extends \Illuminate\Database\Eloquent\Model
 {
     protected $guarded = [
@@ -12,29 +10,16 @@ class Page extends \Illuminate\Database\Eloquent\Model
 
     protected $attributes = [
         'template' => 'default',
-        'published' => true,
     ];
 
     protected $appends = [
+        'is_published',
         'url',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+    protected $dates = [
+        'published_at',
     ];
-
-    /**
-     * The "booting" method of the model.
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($page) {
-            $page->author_id = auth()->user()->id;
-        });
-    }
 
     /**
      * Get the table associated with the model.
@@ -50,6 +35,14 @@ class Page extends \Illuminate\Database\Eloquent\Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get value of is_published attribute.
+     */
+    public function getIsPublishedAttribute (): bool
+    {
+        return now() >= $this->published_at;
     }
 
     /**

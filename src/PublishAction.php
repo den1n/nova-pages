@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Laravel\Nova\Fields\DateTime;
 
 class PublishAction extends Action
 {
@@ -20,18 +21,27 @@ class PublishAction extends Action
      */
     public function name(): string
     {
-        return __('Publish pages');
+        return __('Publish');
+    }
+
+    /**
+     * Get the fields available on the action.
+     */
+    public function fields(): array
+    {
+        return [
+            DateTime::make(__('Date'), 'date'),
+        ];
     }
 
     /**
      * Perform the action on the given models.
      */
-    public function handle(ActionFields $fields, Collection $models): array
+    public function handle(ActionFields $fields, Collection $models): void
     {
         foreach ($models as $model) {
-            $model->published = true;
+            $model->published_at = $fields->date;
             $model->save();
         }
-        return Action::message(__('Pages are published!'));
     }
 }

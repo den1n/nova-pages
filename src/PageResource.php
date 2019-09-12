@@ -100,13 +100,24 @@ class PageResource extends Resource
                 ->rules('nullable', 'string', 'max:255')
                 ->hideFromIndex(),
 
-            Boolean::make(__('Published'), 'published')
-                ->rules('required')
-                ->sortable(),
+            Boolean::make(__('Is Published'), 'is_published')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+
+            DateTime::make(__('Published At'), 'published_at')
+                ->help(__('A date when page will be available for viewing'))
+                ->rules('nullable', 'date')
+                ->hideFromIndex()
+                ->hideFromDetail(),
 
             $this->makeEditorField()
                 ->rules('nullable', 'string')
                 ->hideFromIndex(),
+
+            DateTime::make(__('Published At'), 'published_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
 
             DateTime::make(__('Created At'), 'created_at')
                 ->hideWhenCreating()
@@ -209,12 +220,10 @@ class PageResource extends Resource
      */
     public function actions(Request $request): array
     {
-        $canUpdate = function ($request) {
-            return $request->user()->can('pagesUpdate');
-        };
         return [
-            (new PublishAction)->canSee($canUpdate),
-            (new HideAction)->canSee($canUpdate),
+            (new PublishAction)->canSee(function ($request) {
+                return $request->user()->can('pagesUpdate');
+            }),
         ];
     }
 }
