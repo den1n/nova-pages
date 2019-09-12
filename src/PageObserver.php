@@ -2,31 +2,26 @@
 
 namespace Den1n\NovaPages;
 
+use Illuminate\Support\Str;
+
 class PageObserver
 {
     /**
-     * Checks uniqueness of page slug.
+     * Generate unique page slug.
      */
-    protected function checkUniqueness (Page $page): void
+    protected function generateSlug (Page $page): string
     {
-        $first = config('nova-pages.models.page')::where('slug', $page->slug)->first();
-        if ($first and $first->id !== $page->id)
-            throw new \Exception(__("Page with slug ':slug' already exists", ['slug' => $page->slug]));
+        $slug = $page->slug ?: Str::slug($page->name);
+        if ($count = config('nova-pages.models.page')::where('id', '!=', $page->id)->where('slug', $slug)->count())
+            $slug .= '-' . ($count + 1);
+        return $slug;
     }
 
     /**
-     * Handle the Page "creating" event.
+     * Handle the Page "saving" event.
      */
-    public function creating(Page $page): void
+    public function saving(Page $page): void
     {
-        $this->checkUniqueness($page);
-    }
-
-    /**
-     * Handle the Page "updating" event.
-     */
-    public function updating(Page $page): void
-    {
-        $this->checkUniqueness($page);
+        $page->slug = $this->generateSlug($page);
     }
 }

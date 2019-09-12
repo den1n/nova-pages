@@ -63,15 +63,6 @@ class Page extends \Illuminate\Database\Eloquent\Model
     }
 
     /**
-     * Set value for title attribute.
-     */
-    public function setTitleAttribute(string $value): void
-    {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug'] = $this->attributes['slug'] ?? Str::slug($value);
-    }
-
-    /**
      * Get the author of the page.
      */
     public function author()
