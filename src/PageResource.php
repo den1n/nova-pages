@@ -108,7 +108,8 @@ class PageResource extends Resource
                 ->help(__('A date when page will be available for viewing'))
                 ->rules('nullable', 'date')
                 ->hideFromIndex()
-                ->hideFromDetail(),
+                ->hideFromDetail()
+                ->firstDayOfWeek(1),
 
             $this->makeEditorField()
                 ->rules('nullable', 'string')
