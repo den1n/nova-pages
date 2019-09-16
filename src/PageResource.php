@@ -53,7 +53,7 @@ class PageResource extends Resource
     {
         if (empty($request->get('orderBy'))) {
             $query->getQuery()->orders = [];
-            return $query->orderBy('title');
+            return $query->orderBy('created_at', 'desc');
         }
         return $query;
     }
@@ -115,17 +115,17 @@ class PageResource extends Resource
                 ->rules('nullable', 'string')
                 ->hideFromIndex(),
 
-            DateTime::make(__('Published At'), 'published_at')
-                ->hideFromIndex()
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
-
             DateTime::make(__('Created At'), 'created_at')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
             DateTime::make(__('Updated At'), 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+
+            DateTime::make(__('Published At'), 'published_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
