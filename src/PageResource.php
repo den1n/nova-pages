@@ -116,9 +116,9 @@ class PageResource extends Resource
                 ->hideFromIndex(),
 
             DateTime::make(__('Created At'), 'created_at')
+                ->hideFromIndex()
                 ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->sortable(),
+                ->hideWhenUpdating(),
 
             DateTime::make(__('Updated At'), 'updated_at')
                 ->hideFromIndex()
@@ -126,9 +126,9 @@ class PageResource extends Resource
                 ->hideWhenUpdating(),
 
             DateTime::make(__('Published At'), 'published_at')
-                ->hideFromIndex()
                 ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->hideWhenUpdating()
+                ->sortable(),
 
             BelongsTo::make(__('Author'), 'author', config('nova-blog.resources.user'))
                 ->hideWhenCreating()
