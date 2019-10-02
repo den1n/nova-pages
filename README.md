@@ -10,11 +10,19 @@ Require package with Composer.
 composer require den1n/nova-pages
 ```
 
-Publish configuration file `config/nova-pages.php`, migration file `database/migrations*_create_pages_table.php`, views `resources/views/vendor/nova-pages`, translations `resources/lang/vendor/nova-pages` and assets `public/vendor/nova-pages`.
+Publish package resources.
 
 ```sh
 php artisan vendor:publish --provider=Den1n\NovaPages\ServiceProvider
 ```
+
+This will publish the following resources:
+
+* Configuration file `config/nova-pages.php`
+* Migration file `database/migrations/*_create_pages_tables.php`
+* Translations `resources/lang/vendor/nova-pages`
+* Views `resources/views/vendor/nova-pages`
+* Public assets `public/vendor/nova-pages`.
 
 Migrate database.
 
