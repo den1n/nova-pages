@@ -4,7 +4,7 @@ Laravel Nova static pages resource.
 
 ## Installation
 
-Require package with Composer.
+Install package with Composer.
 
 ```sh
 composer require den1n/nova-pages
