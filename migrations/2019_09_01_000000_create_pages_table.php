@@ -17,7 +17,7 @@ class CreatePagesTable extends Migration
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('title');
-            $table->string('keywords')->nullable();
+            $table->jsonb('keywords')->nullable()->default('[]');
             $table->string('description')->nullable();
             $table->string('template');
             $table->text('content')->nullable();

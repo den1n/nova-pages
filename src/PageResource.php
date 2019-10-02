@@ -2,6 +2,7 @@
 
 namespace Den1n\NovaPages;
 
+use Den1n\NovaPages\Fields\Keywords;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -87,7 +88,7 @@ class PageResource extends Resource
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            BelongsTo::make(__('Author'), 'author', config('nova-blog.resources.user'))
+            BelongsTo::make(__('Author'), 'author', config('nova-pages.resources.user'))
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
@@ -144,7 +145,7 @@ class PageResource extends Resource
     protected function makeSEOFields(): array
     {
         return [
-            Text::make(__('Keywords'))
+            Keywords::make(__('Keywords'))
                 ->help(__('List of keywords separated by commas'))
                 ->hideFromIndex(),
 

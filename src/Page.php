@@ -17,6 +17,10 @@ class Page extends \Illuminate\Database\Eloquent\Model
         'url',
     ];
 
+    protected $casts = [
+        'keywords' => 'array',
+    ];
+
     protected $dates = [
         'published_at',
     ];

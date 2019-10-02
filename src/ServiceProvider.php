@@ -2,6 +2,8 @@
 
 namespace Den1n\NovaPages;
 
+use Laravel\Nova\Nova;
+use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -27,6 +29,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             __DIR__ . '/../resources/views/templates' => resource_path('views/vendor/nova-pages/templates'),
         ], 'views');
 
+        $this->publishes([
+            __DIR__ . '/../dist' => public_path('vendor/nova-pages'),
+        ], 'public');
+
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'nova-pages');
         $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
@@ -45,7 +51,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
 
         config('nova-pages.models.page')::observe(PageObserver::class);
-    }
+
+        Nova::serving(function (ServingNova $event) {
+            Nova::script('nova-pages-fields', __DIR__ . '/../dist/fields.js');
+            Nova::style('nova-pages-fields', __DIR__ . '/../dist/fields.css');
+        });    }
 
     /**
      * Register any application services.

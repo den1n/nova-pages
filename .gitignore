@@ -1,2 +1,6 @@
-composer.phar
+/node_modules
 /vendor/
+composer.lock
+composer.phar
+package-lock.json
+phpunit.xml
