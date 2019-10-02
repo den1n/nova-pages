@@ -2,8 +2,12 @@
 
 namespace Den1n\NovaPages\Models;
 
+use Laravel\Scout\Searchable;
+
 class Page extends \Illuminate\Database\Eloquent\Model
 {
+    use Searchable;
+
     protected $guarded = [
         'id',
     ];
@@ -57,6 +61,42 @@ class Page extends \Illuminate\Database\Eloquent\Model
         return route('nova-pages.show', [
             'page' => $this,
         ]);
+    }
+
+    /**
+     * Searchable when published only.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return $this->getIsPublishedAttribute();
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     */
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'content' => $this->content,
+        ];
+    }
+
+    /**
+     * Get the options for searching engine.
+     */
+    public function searchableOptions()
+    {
+        return [
+            'column' => 'ts',
+            'maintain_index' => true,
+            'rank' => [
+                'fields' => [
+                    'title' => 'A',
+                    'content' => 'B',
+                ],
+            ],
+        ];
     }
 
     /**

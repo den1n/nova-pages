@@ -27,6 +27,9 @@ class CreatePagesTable extends Migration
 
             $table->foreign('author_id')->references('id')->on($tables['users'])->onDelete('cascade');
         });
+
+        DB::statement(sprintf('alter table %s add ts tsvector null', $tables['pages']));
+        DB::statement(sprintf('create index %1$s_ts_index on %1$s using gin (ts)', $tables['pages']));
     }
 
     /**

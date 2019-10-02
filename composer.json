@@ -9,7 +9,9 @@
         "email": "iqmass@gmail.com"
     }],
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.2.0",
+        "laravel/scout": "^v7.2",
+        "pmatseykanets/laravel-scout-postgres": "^v6.0"
     },
     "autoload": {
         "psr-4": {
