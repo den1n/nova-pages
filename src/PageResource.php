@@ -9,8 +9,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Resource;
+use Laravel\Nova\Panel;
 
 class PageResource extends Resource
 {
@@ -28,9 +27,7 @@ class PageResource extends Resource
      * The columns that should be searched.
      */
     public static $search = [
-        'slug',
         'title',
-        'description',
         'content',
     ];
 
@@ -42,21 +39,11 @@ class PageResource extends Resource
     ];
 
     /**
-     * Indicates if the resource should be displayed in the sidebar.
+     * Display order of data in index table.
      */
-    public static $displayInNavigation = false;
-
-    /**
-     * Build an "index" query for the given resource.
-     */
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        if (empty($request->get('orderBy'))) {
-            $query->getQuery()->orders = [];
-            return $query->orderBy('created_at', 'desc');
-        }
-        return $query;
-    }
+    public static $displayInOrder = [
+        ['published_at', 'desc'],
+    ];
 
     /**
      * Get the fields displayed by the resource.
@@ -71,34 +58,8 @@ class PageResource extends Resource
                 ->displayUsingLabels()
                 ->sortable(),
 
-            Text::make(__('Slug'), 'slug')
-                ->help(__('Will be filled automatically if leave empty'))
-                ->rules('nullable', 'string')
-                ->hideFromIndex(),
-
-            Text::make(__('Title'), 'title', function () {
-                return sprintf('<a href="%s" title="%s" target="_blank">%s</a>',
-                    $this->url, __('Open page in new window'), $this->title
-                );
-            })
-                ->asHtml()
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
-                ->sortable(),
-
-            Text::make(__('Title'), 'title')
-                ->rules('required', 'string', 'max:255')
-                ->hideFromIndex()
-                ->hideFromDetail(),
-
-            Text::make(__('Keywords'), 'keywords')
-                ->help(__('List of keywords separated by commas'))
-                ->rules('nullable', 'string', 'max:255')
-                ->hideFromIndex(),
-
-            Text::make(__('Description'), 'description')
-                ->rules('nullable', 'string', 'max:255')
-                ->hideFromIndex(),
+            new Panel(__('Content'), $this->makeContentFields()),
+            new Panel(__('Search Optimization'), $this->makeSEOFields()),
 
             Boolean::make(__('Is Published'), 'is_published')
                 ->hideWhenCreating()
@@ -110,10 +71,6 @@ class PageResource extends Resource
                 ->hideFromIndex()
                 ->hideFromDetail()
                 ->firstDayOfWeek(1),
-
-            $this->makeEditorField()
-                ->rules('nullable', 'string')
-                ->hideFromIndex(),
 
             DateTime::make(__('Created At'), 'created_at')
                 ->hideFromIndex()
@@ -151,17 +108,50 @@ class PageResource extends Resource
     }
 
     /**
-     * Creates field for edit content of resource based on application configuration.
+     * Get the content fields.
      */
-    protected function makeEditorField(): \Laravel\Nova\Fields\Field
+    protected function makeContentFields(): array
     {
-        $class = config('nova-pages.editor.class');
-        $field = $class::make(__('Content'), 'content');
-        foreach (config('nova-pages.editor.options') as $method => $arguments) {
-            if (method_exists($field, $method))
-                $field->{$method}(...$arguments);
-        }
-        return $field;
+        return [
+            Text::make(__('Slug'), 'slug')
+                ->help(__('Will be filled automatically if leave empty'))
+                ->rules('nullable', 'string', 'max:255')
+                ->hideFromIndex(),
+
+            Text::make(__('Title'), 'title')
+                ->rules('required', 'string', 'max:255')
+                ->hideFromIndex()
+                ->hideFromDetail(),
+
+            Text::make(__('Title'), 'title', function () {
+                return sprintf('<a href="%s" title="%s" target="_blank">%s</a>',
+                    $this->url, __('Open page in new window'), $this->title
+                );
+            })
+                ->asHtml()
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
+
+            $this->makeEditorField(__('Content'), 'content')
+                ->rules('nullable', 'string'),
+        ];
+    }
+
+    /**
+     * Get the SEO fields.
+     */
+    protected function makeSEOFields(): array
+    {
+        return [
+            Text::make(__('Keywords'))
+                ->help(__('List of keywords separated by commas'))
+                ->hideFromIndex(),
+
+            Text::make(__('Description'), 'description')
+                ->rules('nullable', 'string', 'max:255')
+                ->hideFromIndex(),
+        ];
     }
 
     /**

@@ -22,9 +22,10 @@ class CreatePagesTable extends Migration
             $table->string('template');
             $table->text('content')->nullable();
             $table->bigInteger('author_id')->unsigned();
-            $table->foreign('author_id')->references('id')->on($tables['users'])->onDelete('cascade');
             $table->timestamps();
             $table->timestamp('published_at')->useCurrent();
+
+            $table->foreign('author_id')->references('id')->on($tables['users'])->onDelete('cascade');
         });
     }
 

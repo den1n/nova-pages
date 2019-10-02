@@ -24,7 +24,7 @@ class Page extends \Illuminate\Database\Eloquent\Model
     /**
      * Get the table associated with the model.
      */
-    public function getTable()
+    public function getTable(): string
     {
         return config('nova-pages.tables.page', parent::getTable());
     }

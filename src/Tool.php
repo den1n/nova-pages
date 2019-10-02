@@ -11,13 +11,11 @@ class Tool extends \Laravel\Nova\Tool
      */
     public function boot(): void
     {
-        $resource = config('nova-pages.resources.page');
-        $resource::$model = config('nova-pages.models.page');
-        if ($resource == PageResource::class) {
-            Nova::resources([
-                $resource,
-            ]);
-        }
+        $models = config('nova-pages.models');
+        $resources = config('nova-pages.resources');
+        foreach ($resources as $name => $class)
+            $class::$model = $models[$name];
+        Nova::resources($resources);
     }
 
 	/**
