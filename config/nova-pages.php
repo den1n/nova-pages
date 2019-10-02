@@ -7,7 +7,7 @@ return [
      */
 
     'models' => [
-        'page' => \Den1n\NovaPages\Page::class,
+        'page' => \Den1n\NovaPages\Models\Page::class,
         'user' => config('auth.providers.users.model', \App\User::class),
     ],
 
@@ -16,7 +16,7 @@ return [
      */
 
     'resources' => [
-        'page' => \Den1n\NovaPages\PageResource::class,
+        'page' => \Den1n\NovaPages\Resources\Page::class,
         'user' => \App\Nova\User::class,
     ],
 

@@ -1,10 +1,11 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Policies;
 
+use Den1n\NovaPages\Models\Page as Model;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PagePolicy
+class Page
 {
     use HandlesAuthorization;
 
@@ -19,7 +20,7 @@ class PagePolicy
         return $user->can('pagesView');
     }
 
-    public function view($user, Page $page): bool
+    public function view($user, Model $page): bool
     {
         return $user->can('pagesView');
     }
@@ -29,22 +30,22 @@ class PagePolicy
         return $user->can('pagesCreate');
     }
 
-    public function update($user, Page $page): bool
+    public function update($user, Model $page): bool
     {
         return $user->can('pagesUpdate') and $user->id == $page->author_id;
     }
 
-    public function delete($user, Page $page): bool
+    public function delete($user, Model $page): bool
     {
         return $user->can('pagesDelete') and $user->id == $page->author_id;
     }
 
-    public function restore($user, Page $page): bool
+    public function restore($user, Model $page): bool
     {
         return $user->can('pagesDelete') and $user->id == $page->author_id;
     }
 
-    public function forceDelete($user, Page $page): bool
+    public function forceDelete($user, Model $page): bool
     {
         return $user->can('pagesDelete') and $user->id == $page->author_id;
     }

@@ -57,7 +57,7 @@ Route::novaPagesRoutes('/pages');
 You can get url to existing page by using Laravel `route` helper.
 
 ```php
-use \Den1n\NovaPages\Page;
+use \Den1n\NovaPages\Models\Page;
 
 $url = route('nova-pages.show', [
     'page' => Page::find(1),

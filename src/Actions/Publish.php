@@ -1,18 +1,16 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Actions;
 
-use App\AccountData;
 use Illuminate\Bus\Queueable;
 use Laravel\Nova\Actions\Action;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\ActionFields;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Laravel\Nova\Fields\DateTime;
 
-class PublishAction extends Action
+class Publish extends Action
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 

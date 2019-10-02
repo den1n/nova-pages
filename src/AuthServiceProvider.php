@@ -20,7 +20,7 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
     public function boot(): void
     {
         $this->policies = [
-            config('nova-pages.models.page') => PagePolicy::class,
+            config('nova-pages.models.page') => Policies\Page::class,
         ];
 
         $this->registerPolicies();

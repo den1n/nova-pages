@@ -1,6 +1,6 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Models;
 
 class Page extends \Illuminate\Database\Eloquent\Model
 {

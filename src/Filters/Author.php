@@ -1,18 +1,18 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Filters;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-class StatusFilter extends \Laravel\Nova\Filters\Filter
+class Author extends \Laravel\Nova\Filters\Filter
 {
     /**
      * Get the displayable name of the filter.
      */
     public function name(): string
     {
-        return __('Status');
+        return __('Author');
     }
 
     /**
@@ -20,12 +20,7 @@ class StatusFilter extends \Laravel\Nova\Filters\Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        switch ($value) {
-            case 'published':
-                return $query->where('published_at', '<=', now());
-            case 'hidden':
-                return $query->where('published_at', '>', now());
-        }
+        return $query->where('author_id', $value);
     }
 
     /**
@@ -33,9 +28,8 @@ class StatusFilter extends \Laravel\Nova\Filters\Filter
      */
     public function options(Request $request): array
     {
-        return [
-            __('Published') => 'published',
-            __('Hidden') => 'hidden',
-        ];
+        return config('nova-pages.models.user')::orderBy('name')
+            ->pluck('id', 'name')
+            ->toArray();
     }
 }

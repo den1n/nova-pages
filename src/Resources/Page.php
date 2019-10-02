@@ -1,6 +1,6 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Resources;
 
 use Den1n\NovaPages\Fields\Keywords;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
-class PageResource extends Resource
+class Page extends Resource
 {
     /**
      * The model the resource corresponds to.
@@ -193,9 +193,9 @@ class PageResource extends Resource
     public function filters(Request $request): array
     {
         return [
-            new AuthorFilter,
-            new TemplateFilter,
-            new StatusFilter,
+            new \Den1n\NovaPages\Filters\Author,
+            new \Den1n\NovaPages\Filters\Template,
+            new \Den1n\NovaPages\Filters\Status,
         ];
     }
 
@@ -213,7 +213,7 @@ class PageResource extends Resource
     public function actions(Request $request): array
     {
         return [
-            (new PublishAction)->canSee(function ($request) {
+            (new \Den1n\NovaPages\Actions\Publish)->canSee(function ($request) {
                 return $request->user()->can('pagesUpdate');
             }),
         ];

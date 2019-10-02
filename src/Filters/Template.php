@@ -1,11 +1,11 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Filters;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-class TemplateFilter extends \Laravel\Nova\Filters\Filter
+class Template extends \Laravel\Nova\Filters\Filter
 {
     /**
      * Get the displayable name of the filter.

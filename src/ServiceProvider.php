@@ -13,6 +13,23 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot(): void
     {
+        $this->publishResources();
+        $this->loadTranslations();
+        $this->loadRoutes();
+
+        Nova::serving(function (ServingNova $event) {
+            Nova::script('nova-pages-fields', __DIR__ . '/../dist/fields.js');
+            Nova::style('nova-pages-fields', __DIR__ . '/../dist/fields.css');
+        });
+
+        config('nova-pages.models.page')::observe(Observers\Page::class);
+    }
+
+    /**
+     *  Publish package resources.
+     */
+    protected function publishResources(): void
+    {
         $this->publishes([
             __DIR__ . '/../config/nova-pages.php' => config_path('nova-pages.php'),
         ], 'config');
@@ -32,12 +49,24 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->publishes([
             __DIR__ . '/../dist' => public_path('vendor/nova-pages'),
         ], 'public');
+    }
 
+    /**
+     *  Load package translation files.
+     */
+    protected function loadTranslations(): void
+    {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'nova-pages');
-        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'nova-pages');
+        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang');
         $this->loadJsonTranslationsFrom(resource_path('lang/vendor/nova-pages'));
+    }
 
+    /**
+     *  Load package routes.
+     */
+    protected function loadRoutes(): void
+    {
         Route::macro('novaPagesRoutes', function (string $prefix = '') {
             Route::model('page', config('nova-pages.models.page'));
             Route::group([
@@ -49,13 +78,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 Route::get('/{page}', $controller . '@show')->name('nova-pages.show');
             });
         });
-
-        config('nova-pages.models.page')::observe(PageObserver::class);
-
-        Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-pages-fields', __DIR__ . '/../dist/fields.js');
-            Nova::style('nova-pages-fields', __DIR__ . '/../dist/fields.css');
-        });    }
+    }
 
     /**
      * Register any application services.

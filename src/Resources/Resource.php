@@ -1,6 +1,6 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Resources;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
