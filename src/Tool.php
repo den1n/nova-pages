@@ -13,6 +13,7 @@ class Tool extends \Laravel\Nova\Tool
     {
         $models = config('nova-pages.models');
         $resources = config('nova-pages.resources');
+
         foreach ($resources as $name => $class) {
             if ($name !== 'user') {
                 $class::$model = $models[$name];

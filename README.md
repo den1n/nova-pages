@@ -22,7 +22,13 @@ This will publish the following resources:
 * Migration file `database/migrations/*_create_pages_tables.php`
 * Translations `resources/lang/vendor/nova-pages`
 * Views `resources/views/vendor/nova-pages`
-* Public assets `public/vendor/nova-pages`.
+* CSS assets `resources/sass/vendor/nova-pages`
+
+Add `noba-pages` styles provided by the package to file `resources\sass\app.scss`.
+
+```scss
+@import './vendor/nova-pages';
+```
 
 Migrate database.
 

@@ -16,6 +16,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->publishResources();
         $this->loadTranslations();
         $this->loadRoutes();
+        $this->loadViews();
 
         Nova::serving(function (ServingNova $event) {
             Nova::script('nova-pages-fields', __DIR__ . '/../dist/fields.js');
@@ -47,8 +48,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__ . '/../dist' => public_path('vendor/nova-pages'),
-        ], 'public');
+            __DIR__ . '/../resources/sass/ui' => resource_path('sass/vendor/nova-pages'),
+        ], 'assets');
     }
 
     /**
@@ -56,7 +57,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function loadTranslations(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'nova-pages');
         $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang');
         $this->loadJsonTranslationsFrom(resource_path('lang/vendor/nova-pages'));
@@ -78,6 +78,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 Route::get('/{page}', $controller . '@show')->name('nova-pages.show');
             });
         });
+    }
+
+    /**
+     *  Load package views.
+     */
+    protected function loadViews(): void
+    {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-pages');
     }
 
     /**

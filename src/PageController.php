@@ -2,6 +2,7 @@
 
 namespace Den1n\NovaPages;
 
+use Den1n\NovaPages\Models\Page;
 use Illuminate\Contracts\Support\Renderable;
 
 class PageController extends \App\Http\Controllers\Controller
