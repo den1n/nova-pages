@@ -17,13 +17,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadTranslations();
         $this->loadRoutes();
         $this->loadViews();
-
-        Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-pages-fields', __DIR__ . '/../dist/fields.js');
-            Nova::style('nova-pages-fields', __DIR__ . '/../dist/fields.css');
-        });
-
-        config('nova-pages.models.page')::observe(Observers\Page::class);
     }
 
     /**
@@ -32,7 +25,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function publishResources(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/nova-pages.php' => config_path('nova-pages.php'),
+            __DIR__ . '/../config' => config_path(),
         ], 'config');
 
         $this->publishes([
@@ -67,14 +60,16 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function loadRoutes(): void
     {
-        Route::macro('novaPagesRoutes', function (string $prefix = '') {
+        $controller = '\\' . ltrim(config('nova-pages.controller.class'), '\\');
+
+        Route::macro('novaPagesRoutes', function (string $prefix = '') use ($controller) {
             Route::model('page', config('nova-pages.models.page'));
+
             Route::group([
                 'prefix' => $prefix,
                 'middleware' => ['web'],
                 'namespace' => '\\' . __NAMESPACE__,
-            ], function () {
-                $controller = '\\' . ltrim(config('nova-pages.controller.class'), '\\');
+            ], function () use ($controller) {
                 Route::get('/{page}', $controller . '@show')->name('nova-pages.show');
             });
         });

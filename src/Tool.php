@@ -11,6 +11,8 @@ class Tool extends \Laravel\Nova\Tool
      */
     public function boot(): void
     {
+        Nova::script('nova-pages', __DIR__ . '/../dist/nova.js');
+
         $models = config('nova-pages.models');
         $resources = config('nova-pages.resources');
 
@@ -22,13 +24,13 @@ class Tool extends \Laravel\Nova\Tool
         }
     }
 
-	/**
-	 * Build the view that renders the navigation links for the tool.
-	 */
-	public function renderNavigation()
-	{
-		return view('nova-pages::navigation', [
+    /**
+     * Build the view that renders the navigation links for the tool.
+     */
+    public function renderNavigation()
+    {
+        return view('nova-pages::navigation', [
             'uriKey' => config('nova-pages.resources.page')::uriKey(),
         ]);
-	}
+    }
 }

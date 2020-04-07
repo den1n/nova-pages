@@ -2,6 +2,7 @@
 
 namespace Den1n\NovaPages\Models;
 
+use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
 class Page extends \Illuminate\Database\Eloquent\Model
@@ -28,6 +29,20 @@ class Page extends \Illuminate\Database\Eloquent\Model
     protected $dates = [
         'published_at',
     ];
+
+    /**
+     * The "booting" method of the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function (self $page) {
+            $page->published_at = $page->published_at ?: now();
+            $page->slug = static::generateSlug($page);
+            $page->author_id = $page->author_id ?: auth()->user()->id;
+        });
+    }
 
     /**
      * Get the table associated with the model.
@@ -58,9 +73,26 @@ class Page extends \Illuminate\Database\Eloquent\Model
      */
     public function getUrlAttribute (): string
     {
-        return route('nova-pages.show', [
-            'page' => $this,
-        ]);
+        if ($this->exists) {
+            return route('nova-pages.show', [
+                'page' => $this,
+            ]);
+        } else
+            return '';
+    }
+
+    /**
+     * Generate unique page slug.
+     */
+    protected static function generateSlug (self $page): string
+    {
+        $counter = 1;
+        $slug = $original = $page->slug ?: Str::slug($page->title);
+
+        while (static::where('id', '!=', $page->id)->where('slug', $slug)->exists())
+            $slug = $original . '-' . (++$counter);
+
+        return $slug;
     }
 
     /**

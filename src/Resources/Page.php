@@ -102,8 +102,10 @@ class Page extends Resource
     {
         return Select::make(__('Template'), 'template')->options(function () {
             $templates = [];
+
             foreach (config('nova-pages.controller.templates') as $template)
                 $templates[$template['name']] = __($template['description']);
+
             return $templates;
         });
     }
@@ -160,7 +162,7 @@ class Page extends Resource
      */
     public static function uriKey(): string
     {
-        return 'pages';
+        return 'nova-pages';
     }
 
     /**
