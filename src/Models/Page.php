@@ -49,7 +49,7 @@ class Page extends \Illuminate\Database\Eloquent\Model
      */
     public function getTable(): string
     {
-        return config('nova-pages.tables.page', parent::getTable());
+        return config('nova-pages.tables.pages', parent::getTable());
     }
 
     /**
