@@ -41,7 +41,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__ . '/../resources/sass/ui' => resource_path('sass/vendor/nova-pages'),
+            __DIR__ . '/../resources/sass/index.scss' => resource_path('sass/vendor/nova-pages/index.scss'),
         ], 'assets');
     }
 
