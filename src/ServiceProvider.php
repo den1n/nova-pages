@@ -14,6 +14,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot(): void
     {
         $this->publishResources();
+        $this->loadMigrations();
         $this->loadTranslations();
         $this->loadRoutes();
         $this->loadViews();
@@ -43,6 +44,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/sass/index.scss' => resource_path('sass/vendor/nova-pages/index.scss'),
         ], 'assets');
+    }
+
+    /**
+     * Load package migrations files.
+     */
+    protected function loadMigrations(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
     }
 
     /**
