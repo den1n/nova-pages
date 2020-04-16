@@ -74,16 +74,16 @@ class Page extends Resource
                 ->firstDayOfWeek(1),
 
             DateTime::make(__('Created At'), 'created_at')
-                ->hideFromIndex()
                 ->hideWhenCreating()
-                ->hideWhenUpdating(),
-
-            DateTime::make(__('Updated At'), 'updated_at')
-                ->hideFromIndex()
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->hideWhenUpdating()
+                ->sortable(),
 
             DateTime::make(__('Published At'), 'published_at')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->sortable(),
+
+            DateTime::make(__('Updated At'), 'updated_at')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
