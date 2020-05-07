@@ -13,7 +13,7 @@ composer require den1n/nova-pages
 Publish package resources.
 
 ```sh
-php artisan vendor:publish --provider=Den1n\NovaPages\ServiceProvider
+php artisan vendor:publish --provider="Den1n\NovaPages\ServiceProvider"
 ```
 
 This will publish the following resources:
@@ -116,6 +116,44 @@ Then register it in configuration file `config/nova-pages.php`.
 ```
 
 After that your custom template will be available to select when creating page or updating existing one.
+
+## WYSIWYG editor
+
+By default package uses default WYSIWYG editor [provided by Nova](https://nova.laravel.com/docs/1.0/resources/fields.html#trix-field).
+
+You can replace default editor. For example, with `froala/nova-froala-field`.
+
+To do this, [install the package](https://github.com/froala/nova-froala-field) and update `editor` settings in `config/nova-pages.php` file.
+
+```php
+    /**
+     * Settings for WYSIWYG editor.
+     */
+
+    'editor' => [
+        /**
+         * Nova field class name.
+         */
+
+        'class' => \Froala\NovaFroalaField\Froala::class,
+
+        /**
+         * Options which will be applied to te field instance.
+         * Key: name of field method.
+         * Value: list of method arguments.
+         */
+
+        'options' => [
+            'withFiles' => ['public', 'nova-pages'],
+
+            // Froala options.
+            'options' => [[
+                'heightMax' => 800,
+                'heightMin' => 300,
+            ]],
+        ],
+    ],
+```
 
 ## Screenshots
 

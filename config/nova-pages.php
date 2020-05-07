@@ -21,12 +21,12 @@ return [
     ],
 
     /**
-     * Settings of Nova field user for editing page content.
+     * Settings for WYSIWYG editor.
      */
 
     'editor' => [
         /**
-         * Name of Nova field class used for editing of page content.
+         * Nova field class name.
          */
 
         'class' => \Laravel\Nova\Fields\Trix::class,
@@ -38,7 +38,7 @@ return [
          */
 
         'options' => [
-            // 'withFiles' => ['public'],
+            'withFiles' => ['public', 'nova-pages'],
         ],
     ],
 
