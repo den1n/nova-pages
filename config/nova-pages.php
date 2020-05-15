@@ -32,7 +32,7 @@ return [
         'class' => \Laravel\Nova\Fields\Trix::class,
 
         /**
-         * Options which will be applied to te field instance.
+         * Options which will be applied to the field instance.
          * Key: name of field method.
          * Value: list of method arguments.
          */

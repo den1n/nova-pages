@@ -26,6 +26,7 @@ class CreatePagesTable extends Migration
             $table->timestamp('published_at')->useCurrent();
 
             $table->foreign('author_id')->references('id')->on($tables['users'])->onDelete('cascade');
+            $table->index('author_id');
         });
 
         if (config('database.default') === 'pgsql') {
