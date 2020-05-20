@@ -21,11 +21,10 @@ class CreatePagesTable extends Migration
             $table->string('description')->nullable();
             $table->string('template');
             $table->text('content')->nullable();
-            $table->bigInteger('author_id')->unsigned();
-            $table->timestamps();
+            $table->foreignId('author_id')->constrained($tables['users'])->onDelete('cascade');
             $table->timestamp('published_at')->useCurrent();
+            $table->timestamps();
 
-            $table->foreign('author_id')->references('id')->on($tables['users'])->onDelete('cascade');
             $table->index('author_id');
         });
 
