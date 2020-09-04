@@ -59,6 +59,9 @@ class Page extends Resource
                 ->displayUsingLabels()
                 ->sortable(),
 
+            new Panel(__('Content'), $this->makeContentFields()),
+            new Panel(__('Search Optimization'), $this->makeSEOFields()),
+
             Boolean::make(__('Is Published'), 'is_published')
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
@@ -69,9 +72,6 @@ class Page extends Resource
                 ->hideFromIndex()
                 ->hideFromDetail()
                 ->firstDayOfWeek(1),
-
-            new Panel(__('Content'), $this->makeContentFields()),
-            new Panel(__('Search Optimization'), $this->makeSEOFields()),
 
             DateTime::make(__('Created At'), 'created_at')
                 ->hideWhenCreating()
