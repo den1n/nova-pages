@@ -37,7 +37,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/js/frontend' => resource_path('js/vendor/nova-pages'),
-        ], 'assets');
+        ], 'example');
     }
 
     /**
