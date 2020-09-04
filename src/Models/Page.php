@@ -118,11 +118,11 @@ class Page extends \Illuminate\Database\Eloquent\Model
     }
 
     /**
-     * Query only published pages.
+     * Include only published pages.
      */
     public function scopeOnlyPublished($query)
     {
-        return $query->where('published_at', '<=', DB::raw('current_timestamp'));
+        return $query->where('published_at', '<=', now());
     }
 
     /**
