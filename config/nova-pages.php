@@ -3,7 +3,7 @@
 return [
 
     /**
-     * Names of models used by application.
+     * Used models.
      */
 
     'models' => [
@@ -12,7 +12,7 @@ return [
     ],
 
     /**
-     * Names of resources used by Nova.
+     * Resources used by Nova.
      */
 
     'resources' => [
@@ -21,10 +21,16 @@ return [
     ],
 
     /**
+     * Page policy used by Nova.
+     */
+
+    'policy' => \Den1n\NovaPages\Policies\Page::class,
+
+    /**
      * Controller class which will be serving pages.
      */
 
-    'controller' => \Den1n\NovaPages\PageController::class,
+    'controller' => \Den1n\NovaPages\Controller::class,
 
     /**
      * Names of database tables used by models.

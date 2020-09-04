@@ -4,7 +4,7 @@ namespace Den1n\NovaPages;
 
 use Den1n\NovaPages\Models\Page;
 
-class PageController extends \App\Http\Controllers\Controller
+class Controller extends \App\Http\Controllers\Controller
 {
     /**
      * Display the specified resource.

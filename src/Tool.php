@@ -13,15 +13,10 @@ class Tool extends \Laravel\Nova\Tool
     {
         Nova::script('nova-pages', __DIR__ . '/../dist/nova.js');
 
-        $models = config('nova-pages.models');
-        $resources = config('nova-pages.resources');
+        $resource = config('nova-pages.resources.page');
+        $resource::$model = config('nova-pages.models.page');
 
-        foreach ($resources as $name => $class) {
-            if ($name !== 'user') {
-                $class::$model = $models[$name];
-                Nova::resources([$class]);
-            }
-        }
+        Nova::resources([$resource]);
     }
 
     /**

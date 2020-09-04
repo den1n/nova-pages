@@ -2,8 +2,6 @@
 
 namespace Den1n\NovaPages;
 
-use Illuminate\Support\Facades\Gate;
-
 class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthServiceProvider
 {
     /**
@@ -12,7 +10,7 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
     public function boot(): void
     {
         $this->policies = [
-            config('nova-pages.models.page') => Policies\Page::class,
+            config('nova-pages.models.page') => config('nova-pages.policy'),
         ];
 
         $this->registerPolicies();
