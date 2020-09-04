@@ -29,12 +29,6 @@ Migrate database.
 php artisan migrate
 ```
 
-Add routes to the `routes/api.php` file.
-
-```php
-Route::novaPages();
-```
-
 Add instance of class `Den1n\NovaPages\Tool` to your `App\Providers\NovaServiceProvider::tools()` method to display the pages within your Nova resources.
 
 ```php

@@ -63,12 +63,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function loadRoutes(): void
     {
-        Route::macro('novaPages', function () {
-            Route::name('nova-pages.')->group(function () {
-                $controller = '\\' . ltrim(config('nova-pages.controller'), '\\');
+        Route::name('nova-pages.')->group(function () {
+            $controller = '\\' . ltrim(config('nova-pages.controller'), '\\');
 
-                Route::apiResource('vendor/nova-pages/page', $controller)->only('show');
-            });
+            Route::apiResource('vendor/nova-pages/page', $controller)->only('show');
         });
     }
 
