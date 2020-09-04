@@ -3,20 +3,18 @@
 namespace Den1n\NovaPages;
 
 use Den1n\NovaPages\Models\Page;
-use Illuminate\Contracts\Support\Renderable;
 
 class PageController extends \App\Http\Controllers\Controller
 {
     /**
-     * Shows a page content.
+     * Display the specified resource.
      */
-    public function show(Page $page): Renderable
+    public function show(Page $page): Page
     {
-        if ($page->is_published or ($user = auth()->user() and $user->can('pagesManager'))) {
-            return view('nova-pages::templates.' . $page->template, [
-                'page' => $page,
-            ]);
-        } else
+        if (!$page->is_published) {
             abort(404);
+        }
+
+        return $page;
     }
 }

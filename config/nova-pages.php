@@ -21,6 +21,32 @@ return [
     ],
 
     /**
+     * Controller class which will be serving pages.
+     */
+
+    'controller' => \Den1n\NovaPages\PageController::class,
+
+    /**
+     * Names of database tables used by models.
+     */
+
+    'tables' => [
+        'pages' => 'pages',
+        'users' => 'users',
+    ],
+
+    /**
+     * Page types.
+     */
+
+    'types' => [
+        [
+            'id' => 'default',
+            'name' => 'Default',
+        ],
+    ],
+
+    /**
      * Settings for WYSIWYG editor.
      */
 
@@ -39,38 +65,6 @@ return [
 
         'options' => [
             'withFiles' => ['public', 'nova-pages'],
-        ],
-    ],
-
-    /**
-     * Names of database tables used by models.
-     */
-
-    'tables' => [
-        'pages' => 'pages',
-        'users' => 'users',
-    ],
-
-    /**
-     * Settings of pages controller
-     */
-
-    'controller' => [
-        /**
-         * Controller class which will be serving pages.
-         */
-
-        'class' => \Den1n\NovaPages\PageController::class,
-
-        /**
-         * Array of templates used by controller.
-         */
-
-        'templates' => [
-            [
-                'name' => 'default',
-                'description' => 'Default',
-            ],
         ],
     ],
 ];

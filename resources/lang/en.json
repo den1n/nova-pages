@@ -1,6 +1,6 @@
 {
     "Author": "Author",
-    "Template": "Template",
+    "Type": "Type",
     "Slug": "Slug",
     "Url": "Url",
     "Title": "Title",
@@ -21,11 +21,5 @@
     "List of keywords separated by commas": "List of keywords separated by commas",
     "A date when page will be available for viewing": "A date when page will be available for viewing",
     "Open page in new window": "Open page in new window",
-    "Default": "Default",
-
-    "pagesManager": "Pages: Manager",
-    "pagesView": "Pages: View Pages",
-    "pagesCreate": "Pages: Create Pages",
-    "pagesUpdate": "Pages: Update Pages",
-    "pagesDelete": "Pages: Delete Pages"
+    "Default": "Default"
 }

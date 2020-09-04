@@ -5,14 +5,14 @@ namespace Den1n\NovaPages\Filters;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-class Template extends \Laravel\Nova\Filters\Filter
+class Type extends \Laravel\Nova\Filters\Filter
 {
     /**
      * Get the displayable name of the filter.
      */
     public function name(): string
     {
-        return __('Template');
+        return __('Type');
     }
 
     /**
@@ -20,7 +20,7 @@ class Template extends \Laravel\Nova\Filters\Filter
      */
     public function apply(Request $request, $query, $value): Builder
     {
-        return $query->where('template', $value);
+        return $query->where('type', $value);
     }
 
     /**
@@ -28,9 +28,12 @@ class Template extends \Laravel\Nova\Filters\Filter
      */
     public function options(Request $request): array
     {
-        $templates = [];
-        foreach (config('nova-pages.controller.templates') as $template)
-            $templates[__($template['description'])] = $template['name'];
-        return $templates;
+        $types = [];
+
+        foreach (config('nova-pages.types') as $type) {
+            $types[__($type['name'])] = $type['id'];
+        }
+
+        return $types;
     }
 }

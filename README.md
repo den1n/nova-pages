@@ -21,19 +21,18 @@ This will publish the following resources:
 * Configuration file `config/nova-pages.php`
 * Migration file `database/migrations/*_create_pages_tables.php`
 * Translations `resources/lang/vendor/nova-pages`
-* Views `resources/views/vendor/nova-pages`
-* CSS assets `resources/sass/vendor/nova-pages`
-
-Add `noba-pages` styles provided by the package to file `resources\sass\app.scss`.
-
-```scss
-@import './vendor/nova-pages';
-```
+* Pages Vue component example `resources/js/vendor/nova-pages/index.vue`
 
 Migrate database.
 
 ```sh
 php artisan migrate
+```
+
+Add routes to the `routes/api.php` file.
+
+```php
+Route::novaPages();
 ```
 
 Add instance of class `Den1n\NovaPages\Tool` to your `App\Providers\NovaServiceProvider::tools()` method to display the pages within your Nova resources.
@@ -52,70 +51,57 @@ public function tools()
 }
 ```
 
-## Serving Pages
+After that `Pages` resource will be available in navigation panel of Nova.
 
-If you want to serve pages from root of the site add this route to the end of `routes/web.php` file.
+## Serving pages example
 
-```php
-Route::novaPagesRoutes();
+You will need to create the Vue component to render existing pages.
+
+As example you can use page component `resources/js/vendor/nova-pages/example.vue` provided by the package.
+
+Add it to your Vue Router.
+
+```js
+const routes = {
+    // ...
+
+    {
+        name: 'pages',
+        path: '/pages/:slug',
+        component: () => import(`resources/js/vendor/nova-pages/example.vue`),
+    }
+};
 ```
 
-This route will serve all incoming /{page} requests.
+Then use `router-link` to navigate to `pages` route.
 
-Or you can define route with prefix to stop serving from root of the sites.
-
-```php
-Route::novaPagesRoutes('/pages');
+```html
+    <router-link :to="{ name: 'pages', params: { slug: 'existing-page-slug' } }">
+        Existing Page
+    </router-link>
 ```
 
-You can get url to existing page by using Laravel `route` helper.
+## Page types
 
-```php
-use \Den1n\NovaPages\Models\Page;
+By default all pages will has `default` type.
 
-$url = route('nova-pages.show', [
-    'page' => Page::find(1),
-]);
-
-// Or you can pass a page slug.
-$url = route('nova-pages.show', [
-    'page' => 'page-slug',
-]);
-```
-
-## Default template
-
-Page controller will serve pages with `default` template.
-
-Template is published to views directory `resources/views/vendor/nova-pages/templates/default.blade.php`.
-
-Instance of `Page` model passed to template as `$page` variable.
-
-You can freely modify `default` template.
-
-## Creating a custom template
-
-First create a custom blade template in `resources/views/vendor/nova-pages/templates` directory.
-
-For example, `rich.blade.php`.
-
-Then register it in configuration file `config/nova-pages.php`.
+You can register additional types in configuration file `config/nova-pages.php`.
 
 ```php
 /**
- * Array of templates used by controller.
+ * Page types.
  */
 
-'templates' => [
+'types' => [
     // ...
     [
-        'name' => 'rich',
-        'description' => 'A rich template',
+        'name' => 'my_type',
+        'description' => 'My Type',
     ],
 ],
 ```
 
-After that your custom template will be available to select when creating page or updating existing one.
+After that new type will be available to select when creating page or updating existing one.
 
 ## WYSIWYG editor
 

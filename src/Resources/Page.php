@@ -54,13 +54,10 @@ class Page extends Resource
         return [
             ID::make()->sortable(),
 
-            $this->makeTemplatesField()
+            $this->makeTypesField()
                 ->rules('required', 'string')
                 ->displayUsingLabels()
                 ->sortable(),
-
-            new Panel(__('Content'), $this->makeContentFields()),
-            new Panel(__('Search Optimization'), $this->makeSEOFields()),
 
             Boolean::make(__('Is Published'), 'is_published')
                 ->hideWhenCreating()
@@ -72,6 +69,9 @@ class Page extends Resource
                 ->hideFromIndex()
                 ->hideFromDetail()
                 ->firstDayOfWeek(1),
+
+            new Panel(__('Content'), $this->makeContentFields()),
+            new Panel(__('Search Optimization'), $this->makeSEOFields()),
 
             DateTime::make(__('Created At'), 'created_at')
                 ->hideWhenCreating()
@@ -96,17 +96,18 @@ class Page extends Resource
     }
 
     /**
-     * Creates template selection field based on application configuration.
+     * Creates type selection field based on application configuration.
      */
-    protected function makeTemplatesField(): Select
+    protected function makeTypesField(): Select
     {
-        return Select::make(__('Template'), 'template')->options(function () {
-            $templates = [];
+        return Select::make(__('Type'), 'type')->options(function () {
+            $types = [];
 
-            foreach (config('nova-pages.controller.templates') as $template)
-                $templates[$template['name']] = __($template['description']);
+            foreach (config('nova-pages.types') as $type) {
+                $types[$type['id']] = __($type['name']);
+            }
 
-            return $templates;
+            return $types;
         });
     }
 
@@ -123,17 +124,6 @@ class Page extends Resource
 
             Text::make(__('Title'), 'title')
                 ->rules('required', 'string', 'max:255')
-                ->hideFromIndex()
-                ->hideFromDetail(),
-
-            Text::make(__('Title'), 'title', function () {
-                return sprintf('<a href="%s" title="%s" target="_blank">%s</a>',
-                    $this->url, __('Open page in new window'), $this->title
-                );
-            })
-                ->asHtml()
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->sortable(),
 
             $this->makeEditorField(__('Content'), 'content')
@@ -196,7 +186,7 @@ class Page extends Resource
     {
         return [
             new \Den1n\NovaPages\Filters\Author,
-            new \Den1n\NovaPages\Filters\Template,
+            new \Den1n\NovaPages\Filters\Type,
             new \Den1n\NovaPages\Filters\Status,
         ];
     }
@@ -215,9 +205,10 @@ class Page extends Resource
     public function actions(Request $request): array
     {
         return [
-            (new \Den1n\NovaPages\Actions\Publish)->canSee(function ($request) {
-                return $request->user()->can('pagesUpdate');
-            }),
+            (new \Den1n\NovaPages\Actions\Publish)
+                ->canRun(function ($request, $page) {
+                    return $request->user()->can('update', $page);
+                }),
         ];
     }
 }

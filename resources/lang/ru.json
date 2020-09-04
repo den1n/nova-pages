@@ -1,6 +1,6 @@
 {
     "Author": "Автор",
-    "Template": "Шаблон",
+    "Type": "Тип",
     "Slug": "Слаг",
     "Url": "Адрес",
     "Title": "Заголовок",
@@ -21,11 +21,5 @@
     "List of keywords separated by commas": "Список ключевых слов, разделенных запятыми",
     "A date when page will be available for viewing": "Дата, когда страница будет доступна для просмотра",
     "Open page in new window": "Открыть страницу в новом окне",
-    "Default": "По умолчанию",
-
-    "pagesManager": "Страницы: Менеджер",
-    "pagesView": "Страницы: Просмотр страниц",
-    "pagesCreate": "Страницы: Создание страниц",
-    "pagesUpdate": "Страницы: Обновление страниц",
-    "pagesDelete": "Страницы: Удаление страниц"
+    "Default": "По умолчанию"
 }

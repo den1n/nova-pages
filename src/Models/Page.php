@@ -4,6 +4,7 @@ namespace Den1n\NovaPages\Models;
 
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Illuminate\Support\Facades\DB;
 
 class Page extends \Illuminate\Database\Eloquent\Model
 {
@@ -14,12 +15,11 @@ class Page extends \Illuminate\Database\Eloquent\Model
     ];
 
     protected $attributes = [
-        'template' => 'default',
+        'type' => 'default',
     ];
 
     protected $appends = [
         'is_published',
-        'url',
     ];
 
     protected $casts = [
@@ -38,9 +38,9 @@ class Page extends \Illuminate\Database\Eloquent\Model
         parent::boot();
 
         static::saving(function (self $page) {
-            $page->published_at = $page->published_at ?: now();
             $page->slug = static::generateSlug($page);
             $page->author_id = $page->author_id ?: auth()->user()->id;
+            $page->published_at = $page->published_at ?: now();
         });
     }
 
@@ -67,20 +67,6 @@ class Page extends \Illuminate\Database\Eloquent\Model
     {
         return now() >= $this->published_at;
     }
-
-    /**
-     * Get value of url attribute.
-     */
-    public function getUrlAttribute (): string
-    {
-        if ($this->exists) {
-            return route('nova-pages.show', [
-                'page' => $this,
-            ]);
-        } else
-            return '';
-    }
-
     /**
      * Generate unique page slug.
      */
@@ -110,14 +96,14 @@ class Page extends \Illuminate\Database\Eloquent\Model
     {
         return [
             'title' => $this->title,
-            'content' => $this->content,
+            'content' => preg_replace('/\d+/u', ' ', $this->content),
         ];
     }
 
     /**
      * Get the options for searching engine.
      */
-    public function searchableOptions()
+    public function searchableOptions(): array
     {
         return [
             'column' => 'ts',
@@ -129,6 +115,14 @@ class Page extends \Illuminate\Database\Eloquent\Model
                 ],
             ],
         ];
+    }
+
+    /**
+     * Query only published pages.
+     */
+    public function scopeOnlyPublished($query)
+    {
+        return $query->where('published_at', '<=', DB::raw('current_timestamp'));
     }
 
     /**

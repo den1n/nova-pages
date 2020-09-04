@@ -16,10 +16,10 @@ class CreatePagesTable extends Migration
         Schema::create($tables['pages'], function (Blueprint $table) use ($tables) {
             $table->increments('id');
             $table->string('slug')->unique();
+            $table->string('type');
             $table->string('title');
             $table->jsonb('keywords')->nullable()->default('[]');
             $table->string('description')->nullable();
-            $table->string('template');
             $table->text('content')->nullable();
             $table->foreignId('author_id')->constrained($tables['users'])->onDelete('cascade');
             $table->timestamp('published_at')->useCurrent();

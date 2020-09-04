@@ -13,35 +13,35 @@
 </template>
 
 <script>
-import { FormField, HandlesValidationErrors } from 'laravel-nova';
-import KeywordsInput from './KeywordsInput.vue';
+    import { FormField, HandlesValidationErrors } from 'laravel-nova';
+    import KeywordsInput from './KeywordsInput.vue';
 
-export default {
-    mixins: [
-        FormField,
-        HandlesValidationErrors,
-    ],
+    export default {
+        mixins: [
+            FormField,
+            HandlesValidationErrors,
+        ],
 
-    props: ['resourceName', 'resourceId', 'field'],
+        props: ['resourceName', 'resourceId', 'field'],
 
-    data() {
-        return {
-            keywords: this.field.value || [],
-        };
-    },
-
-    components: {
-        KeywordsInput,
-    },
-
-    methods: {
-        fill(formData) {
-            formData.append(this.field.attribute, this.keywords.join('|'));
+        data() {
+            return {
+                keywords: this.field.value || [],
+            };
         },
 
-        handleChange(value) {
-            this.value = value;
+        components: {
+            KeywordsInput,
         },
-    },
-};
+
+        methods: {
+            fill(formData) {
+                formData.append(this.field.attribute, this.keywords.join('|'));
+            },
+
+            handleChange(value) {
+                this.value = value;
+            },
+        },
+    };
 </script>

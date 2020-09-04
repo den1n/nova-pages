@@ -2,8 +2,6 @@
 
 namespace Den1n\NovaPages;
 
-use Laravel\Nova\Nova;
-use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -38,11 +36,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'lang');
 
         $this->publishes([
-            __DIR__ . '/../resources/views/templates' => resource_path('views/vendor/nova-pages/templates'),
-        ], 'views');
-
-        $this->publishes([
-            __DIR__ . '/../resources/sass/index.scss' => resource_path('sass/vendor/nova-pages/index.scss'),
+            __DIR__ . '/../resources/js/frontend' => resource_path('js/vendor/nova-pages'),
         ], 'assets');
     }
 
@@ -69,17 +63,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function loadRoutes(): void
     {
-        $controller = '\\' . ltrim(config('nova-pages.controller.class'), '\\');
+        Route::macro('novaPages', function () {
+            Route::name('nova-pages.')->group(function () {
+                $controller = '\\' . ltrim(config('nova-pages.controller'), '\\');
 
-        Route::macro('novaPagesRoutes', function (string $prefix = '') use ($controller) {
-            Route::model('page', config('nova-pages.models.page'));
-
-            Route::group([
-                'prefix' => $prefix,
-                'middleware' => ['web'],
-                'namespace' => '\\' . __NAMESPACE__,
-            ], function () use ($controller) {
-                Route::get('/{page}', $controller . '@show')->name('nova-pages.show');
+                Route::apiResource('vendor/nova-pages/page', $controller)->only('show');
             });
         });
     }
