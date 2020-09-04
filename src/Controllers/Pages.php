@@ -1,10 +1,10 @@
 <?php
 
-namespace Den1n\NovaPages;
+namespace Den1n\NovaPages\Controllers;
 
 use Den1n\NovaPages\Models\Page;
 
-class Controller extends \App\Http\Controllers\Controller
+class Pages extends \App\Http\Controllers\Controller
 {
     /**
      * Create a new controller instance.

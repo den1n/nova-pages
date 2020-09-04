@@ -66,7 +66,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         Route::name('nova-pages.')->group(function () {
             $controller = '\\' . ltrim(config('nova-pages.controller'), '\\');
 
-            Route::apiResource('vendor/nova-pages/page', $controller)->only('show');
+            Route::apiResource('vendor/nova-pages/pages', $controller)->only('show');
         });
     }
 

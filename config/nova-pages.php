@@ -30,7 +30,7 @@ return [
      * Controller class which will be serving pages.
      */
 
-    'controller' => \Den1n\NovaPages\Controller::class,
+    'controller' => \Den1n\NovaPages\Controllers\Pages::class,
 
     /**
      * Names of database tables used by models.
