@@ -21,7 +21,7 @@ This will publish the following resources:
 * Configuration file `config/nova-pages.php`
 * Migration file `database/migrations/*_create_pages_tables.php`
 * Translations `resources/lang/vendor/nova-pages`
-* Pages Vue component example `resources/js/vendor/nova-pages/index.vue`
+* Vue example `resources/js/vendor/nova-pages/example.vue`
 
 Migrate database.
 

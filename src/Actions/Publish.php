@@ -38,6 +38,7 @@ class Publish extends Action
     public function handle(ActionFields $fields, Collection $models): void
     {
         foreach ($models as $model) {
+            $model->is_published = true;
             $model->published_at = $fields->date;
             $model->save();
         }

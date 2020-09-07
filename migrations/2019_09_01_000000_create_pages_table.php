@@ -18,11 +18,12 @@ class CreatePagesTable extends Migration
             $table->string('slug')->unique();
             $table->string('type');
             $table->string('title');
+            $table->boolean('is_published')->default(false);
             $table->jsonb('keywords')->nullable()->default('[]');
             $table->string('description')->nullable();
             $table->text('content')->nullable();
             $table->foreignId('author_id')->constrained($tables['users'])->onDelete('cascade');
-            $table->timestamp('published_at')->useCurrent();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
 
             $table->index('author_id');

@@ -63,6 +63,13 @@ class Page extends Resource
             new Panel(__('Search Optimization'), $this->makeSEOFields()),
 
             Boolean::make(__('Is Published'), 'is_published')
+                ->help(__('A page is considered public when it is published and the date of publication is in the past'))
+                ->hideFromDetail()
+                ->hideFromIndex(),
+
+            Boolean::make(__('Is Published'), function () {
+                return $this->shouldBeSearchable();
+            })
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
@@ -73,12 +80,12 @@ class Page extends Resource
                 ->hideFromDetail()
                 ->firstDayOfWeek(1),
 
-            DateTime::make(__('Created At'), 'created_at')
+            DateTime::make(__('Published At'), 'published_at')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),
 
-            DateTime::make(__('Published At'), 'published_at')
+            DateTime::make(__('Created At'), 'created_at')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->sortable(),

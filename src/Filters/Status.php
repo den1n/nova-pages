@@ -22,9 +22,9 @@ class Status extends \Laravel\Nova\Filters\Filter
     {
         switch ($value) {
             case 'published':
-                return $query->where('published_at', '<=', now());
+                return $query->where('is_published', true)->where('published_at', '<=', now());
             case 'hidden':
-                return $query->where('published_at', '>', now());
+                return $query->where('is_published', false)->orWhere('published_at', '>', now());
         }
     }
 

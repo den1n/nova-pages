@@ -4,7 +4,6 @@ namespace Den1n\NovaPages\Models;
 
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
-use Illuminate\Support\Facades\DB;
 
 class Page extends \Illuminate\Database\Eloquent\Model
 {
@@ -18,11 +17,8 @@ class Page extends \Illuminate\Database\Eloquent\Model
         'type' => 'default',
     ];
 
-    protected $appends = [
-        'is_published',
-    ];
-
     protected $casts = [
+        'is_published' => 'boolean',
         'keywords' => 'array',
     ];
 
@@ -37,10 +33,12 @@ class Page extends \Illuminate\Database\Eloquent\Model
     {
         parent::boot();
 
-        static::saving(function (self $page) {
+        static::saving(function ($page) {
             $page->slug = static::generateSlug($page);
             $page->author_id = $page->author_id ?: auth()->user()->id;
-            $page->published_at = $page->published_at ?: now();
+
+            if ($page->is_published and empty($page->published_at))
+                $page->published_at = now();
         });
     }
 
@@ -61,13 +59,6 @@ class Page extends \Illuminate\Database\Eloquent\Model
     }
 
     /**
-     * Get value of is_published attribute.
-     */
-    public function getIsPublishedAttribute (): bool
-    {
-        return now() >= $this->published_at;
-    }
-    /**
      * Generate unique page slug.
      */
     protected static function generateSlug (self $page): string
@@ -75,8 +66,9 @@ class Page extends \Illuminate\Database\Eloquent\Model
         $counter = 1;
         $slug = $original = $page->slug ?: Str::slug($page->title);
 
-        while (static::where('id', '!=', $page->id)->where('slug', $slug)->exists())
+        while (static::where('id', '!=', $page->id)->where('slug', $slug)->exists()) {
             $slug = $original . '-' . (++$counter);
+        }
 
         return $slug;
     }
@@ -86,7 +78,7 @@ class Page extends \Illuminate\Database\Eloquent\Model
      */
     public function shouldBeSearchable(): bool
     {
-        return $this->getIsPublishedAttribute();
+        return $this->is_published and now() >= $this->published_at;
     }
 
     /**
@@ -122,7 +114,7 @@ class Page extends \Illuminate\Database\Eloquent\Model
      */
     public function scopeOnlyPublished($query)
     {
-        return $query->where('published_at', '<=', now());
+        return $query->where('is_published', true)->where('published_at', '<=', now());
     }
 
     /**

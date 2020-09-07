@@ -16,7 +16,7 @@ class Page
 
     public function view($user, Model $page): bool
     {
-        return $user->id == $page->author_id or $page->is_published;
+        return $user->id == $page->author_id or $page->shouldBeSearchable();
     }
 
     public function create($user): bool

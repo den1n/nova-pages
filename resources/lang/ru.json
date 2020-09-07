@@ -20,6 +20,6 @@
     "Will be filled automatically if leave empty": "Будет заполнено автоматически, если оставить пустым",
     "List of keywords separated by commas": "Список ключевых слов, разделенных запятыми",
     "A date when page will be available for viewing": "Дата, когда страница будет доступна для просмотра",
-    "Open page in new window": "Открыть страницу в новом окне",
+    "A page is considered public when it is published and the date of publication is in the past": "Страница считается общедоступной, когда она опубликована и дата публикации находится в прошлом",
     "Default": "По умолчанию"
 }
