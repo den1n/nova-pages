@@ -1,6 +1,6 @@
 # nova-pages
 
-Laravel Nova static pages resource.
+Static pages resource for Laravel Nova.
 
 ## Installation
 
