@@ -19,7 +19,7 @@ class Pages extends \App\Http\Controllers\Controller
      */
     public function show(Page $page): Page
     {
-        if (!$page->shouldBeSearchable()) {
+        if (!$page->is_public) {
             abort(404);
         }
 

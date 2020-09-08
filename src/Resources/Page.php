@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Page extends Resource
 {
@@ -40,11 +41,23 @@ class Page extends Resource
     ];
 
     /**
-     * Display order of data in index table.
+     * Get the logical group associated with the resource.
      */
-    public static $displayInOrder = [
-        ['published_at', 'desc'],
-    ];
+    public static function group()
+    {
+        return config('nova-pages.navigation-group', static::$group);
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->reorder(
+            $request->get('orderBy') ?: 'published_at',
+            $request->get('orderByDirection') ?: 'desc'
+        );
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -67,9 +80,7 @@ class Page extends Resource
                 ->hideFromDetail()
                 ->hideFromIndex(),
 
-            Boolean::make(__('Is Published'), function () {
-                return $this->shouldBeSearchable();
-            })
+            Boolean::make(__('Is Published'), 'is_public')
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 

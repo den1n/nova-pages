@@ -26,6 +26,10 @@ class Page extends \Illuminate\Database\Eloquent\Model
         'published_at',
     ];
 
+    protected $appends = [
+        'is_public',
+    ];
+
     /**
      * The "booting" method of the model.
      */
@@ -59,6 +63,14 @@ class Page extends \Illuminate\Database\Eloquent\Model
     }
 
     /**
+     * Get value of is_public attribute.
+     */
+    public function getIsPublicAttribute (): bool
+    {
+        return $this->is_published and $this->published_at <= now();
+    }
+
+    /**
      * Generate unique page slug.
      */
     protected static function generateSlug (self $page): string
@@ -78,7 +90,7 @@ class Page extends \Illuminate\Database\Eloquent\Model
      */
     public function shouldBeSearchable(): bool
     {
-        return $this->is_published and now() >= $this->published_at;
+        return $this->is_public;
     }
 
     /**

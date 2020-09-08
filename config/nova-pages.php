@@ -21,12 +21,6 @@ return [
     ],
 
     /**
-     * Page policy used by Nova.
-     */
-
-    'policy' => \Den1n\NovaPages\Policies\Page::class,
-
-    /**
      * Controller class which will be serving pages.
      */
 
@@ -51,6 +45,12 @@ return [
             'name' => 'Default',
         ],
     ],
+
+    /**
+     * The group name for the Nova navigation bar in which the package resources will be displayed.
+     */
+
+    'navigation-group' => '',
 
     /**
      * Settings for WYSIWYG editor.

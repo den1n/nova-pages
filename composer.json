@@ -21,7 +21,6 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Den1n\\NovaPages\\AuthServiceProvider",
                 "Den1n\\NovaPages\\ServiceProvider"
             ]
         }

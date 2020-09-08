@@ -13,19 +13,12 @@ class Tool extends \Laravel\Nova\Tool
     {
         Nova::script('nova-pages', __DIR__ . '/../dist/nova.js');
 
-        $resource = config('nova-pages.resources.page');
-        $resource::$model = config('nova-pages.models.page');
+        $page = config('nova-pages.resources.page');
 
-        Nova::resources([$resource]);
-    }
+        $page::$model = config('nova-pages.models.page');
 
-    /**
-     * Build the view that renders the navigation links for the tool.
-     */
-    public function renderNavigation()
-    {
-        return view('nova-pages::navigation', [
-            'uriKey' => config('nova-pages.resources.page')::uriKey(),
+        Nova::resources([
+            $page
         ]);
     }
 }
