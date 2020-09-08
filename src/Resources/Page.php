@@ -45,7 +45,7 @@ class Page extends Resource
      */
     public static function group()
     {
-        return config('nova-pages.navigation-group', static::$group);
+        return __(config('nova-pages.navigation-group', static::$group));
     }
 
     /**

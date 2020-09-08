@@ -2,8 +2,6 @@
 
 namespace Den1n\NovaPages\Resources;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Validation\Validator;
 use Laravel\Nova\Fields\Field;
