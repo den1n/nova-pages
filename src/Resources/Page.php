@@ -77,38 +77,31 @@ class Page extends Resource
 
             Boolean::make(__('Is Published'), 'is_published')
                 ->help(__('A page is considered public when it is published and the date of publication is in the past'))
-                ->hideFromDetail()
-                ->hideFromIndex(),
+                ->onlyOnForms(),
 
             Boolean::make(__('Is Published'), 'is_public')
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->exceptOnForms(),
 
             DateTime::make(__('Published At'), 'published_at')
                 ->help(__('A date when page will be available for viewing'))
                 ->rules('nullable', 'date')
-                ->hideFromIndex()
-                ->hideFromDetail()
+                ->onlyOnForms()
                 ->firstDayOfWeek(1),
 
             DateTime::make(__('Published At'), 'published_at')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
+                ->exceptOnForms()
                 ->sortable(),
 
             DateTime::make(__('Created At'), 'created_at')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
+                ->exceptOnForms()
                 ->sortable(),
 
             DateTime::make(__('Updated At'), 'updated_at')
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
+                ->exceptOnForms()
                 ->sortable(),
 
             BelongsTo::make(__('Author'), 'author', config('nova-pages.resources.user'))
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
+                ->exceptOnForms()
                 ->sortable(),
         ];
     }
